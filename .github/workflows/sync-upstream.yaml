@@ -22,7 +22,7 @@ jobs:
         run: |
           git remote add upstream https://github.com/suxess-it/kubriX.git
           git fetch upstream
-          git switch -c from-upstream-new upstream/main
+          git switch -c from-upstream upstream/main
           git push --set-upstream origin from-upstream
           gh pr create --base main --head from-upstream --repo kubriX-demo/kubriX-demo --title "Updates from upstream" --body ""
           
