@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+ 
       - name: GitHub Sync to Upstream Repository
         uses: dabreadman/sync-upstream-repo@v1.3.0
         with: 
