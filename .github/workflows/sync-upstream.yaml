@@ -1,4 +1,4 @@
-name: Sync Upstream
+name: sync upstream with PR
 
 # This runs every day on 1801 UTC
 on:
@@ -10,25 +10,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+         
     steps:
-      - name: GitHub Sync to Upstream Repository
-        uses: dabreadman/sync-upstream-repo@v1.3.0
-        with: 
-          upstream_repo: "https://github.com/suxess-it/kubriX.git"
-          upstream_branch: main
-          downstream_branch: from-upstream
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: 'from-upstream'
-          fetch-depth: 0
- 
-      - name: Run the Action
-        uses: devops-infra/action-pull-request@v0.5.5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: from-upstream
-          target_branch: main
-          title: updates from kubriX oss
+      
+      - name: fetch upstream commits and create PR
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote add upstream https://github.com/suxess-it/kubriX.git
+          git fetch upstream
+          git switch -c from-upstream-new upstream/main
+          git push --set-upstream origin from-upstream
+          gh pr create --base main --head from-upstream --repo kubriX-demo/kubriX-demo --title "Updates from upstream" --body ""
+          
