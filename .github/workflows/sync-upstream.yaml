@@ -21,7 +21,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
-        ref: 'from-upstream'
+        with:
+          ref: 'from-upstream'
  
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.5
