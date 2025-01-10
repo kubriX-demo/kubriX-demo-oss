@@ -1,8 +1,8 @@
 
-<h3>Target <code>xpkg.upbound.io/crossplane/crossplane:v1.17.2 (debian 12.5)</code></h3>
+<h3>Target <code>gcr.io/kubecost1/cost-model:prod-2.5.1 (redhat 9.5)</code></h3>
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
-<h3>Target <code>usr/local/bin/crossplane</code></h3>
+<h3>Target <code>go/bin/app</code></h3>
 <h4>Vulnerabilities (2)</h4>
 <table>
     <tr>
@@ -16,14 +16,14 @@
         <td><code>golang.org/x/crypto</code></td>
         <td>CVE-2024-45337</td>
         <td>CRITICAL</td>
-        <td>v0.22.0</td>
+        <td>v0.28.0</td>
         <td>0.31.0</td>
     </tr>
     <tr>
         <td><code>golang.org/x/net</code></td>
         <td>CVE-2024-45338</td>
         <td>HIGH</td>
-        <td>v0.24.0</td>
+        <td>v0.30.0</td>
         <td>0.33.0</td>
     </tr>
 </table>
