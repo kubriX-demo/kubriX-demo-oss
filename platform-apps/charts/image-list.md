@@ -4,7 +4,7 @@
 ## argocd
 * ghcr.io/dexidp/dex:v2.41.1
 * public.ecr.aws/docker/library/redis:7.4.1-alpine
-* quay.io/argoproj/argocd:v2.13.2
+* quay.io/argoproj/argocd:v2.13.3
 ## backstage
 * alpine:3.17
 * ghcr.io/suxess-it/sx-backstage:v1.32.5
@@ -45,7 +45,7 @@
 * registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.0@sha256:aaafd456bda110628b2d4ca6296f38731a3aaf0bf7581efae824a41c770a8fc4
 ## k8s-monitoring
 * docker.io/grafana/alloy:v1.5.1
-* ghcr.io/grafana/k8s-monitoring-test:1.6.18
+* ghcr.io/grafana/k8s-monitoring-test:1.6.19
 * ghcr.io/jimmidyson/configmap-reload:v0.12.0
 * quay.io/prometheus/node-exporter:v1.8.2
 * registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.14.0
@@ -116,7 +116,7 @@
 * docker.io/dserio83/velero-ui:0.1.18
 * docker.io/dserio83/velero-watchdog:0.1.6
 ## velero
-* docker.io/bitnami/kubectl:1.31
+* docker.io/bitnami/kubectl:1.32
 * quay.io/kubevirt/kubevirt-velero-plugin:v0.7.0
 * velero/velero-plugin-for-aws:v1.10.0
 * velero/velero-plugin-for-aws:v1.11.0
