@@ -1,6 +1,6 @@
 dependencies:
 - name: vui
   repository: https://seriohub.github.io/velero-helm/
-  version: 0.1.18
-digest: sha256:8411fd9c52b4cd124770b33497a6c1b25d7220fb30027bda9eba0401671b5a5f
-generated: "2025-01-01T13:50:00.843354226Z"
+  version: 0.1.20
+digest: sha256:b91317cd4e817eeebe4a94bd0f34cca70fa12bfd105a9a4596eeed671f9eee76
+generated: "2025-01-23T22:32:40.786965772Z"

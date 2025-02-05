@@ -1,12 +1,12 @@
 dependencies:
 - name: falco
   repository: https://falcosecurity.github.io/charts
-  version: 4.17.0
+  version: 4.19.0
 - name: falco-exporter
   repository: https://falcosecurity.github.io/charts
   version: 0.12.1
 - name: k8s-metacollector
   repository: https://falcosecurity.github.io/charts
   version: 0.1.10
-digest: sha256:c7cc80824c0e340bf7c61804360828bb9ff74ee4c03e3bc4c26b983ea0fbbf3f
-generated: "2024-12-12T12:53:54.637525481Z"
+digest: sha256:381a18b0ef049f8260d3bc37c5dad6d2acfaad0b697611791716ae796cee153a
+generated: "2025-01-28T13:14:40.67977027Z"

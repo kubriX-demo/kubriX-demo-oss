@@ -1,8 +1,8 @@
 
-<h3>Target <code>quay.io/jetstack/cert-manager-cainjector:v1.16.2 (debian 12.8)</code></h3>
+<h3>Target <code>quay.io/minio/mc:RELEASE.2024-11-21T17-21-54Z (redhat 9.5)</code></h3>
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
-<h3>Target <code>app/cmd/cainjector/cainjector</code></h3>
+<h3>Target <code>usr/bin/mc</code></h3>
 <h4>Vulnerabilities (2)</h4>
 <table>
     <tr>
