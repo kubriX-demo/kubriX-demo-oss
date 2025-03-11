@@ -2,7 +2,7 @@ scmAppsetRequeueAfterSeconds: 30
 multiStageKargoAppSetHelmRepo: "https://github.com/kubriX-demo/kubriX-demo-oss"
 
 teams:
-  - name:  team-1
+  - name: team-awesome
     sourceRepos:
       - '*'
     clusterResourceWhitelist:
@@ -11,7 +11,25 @@ teams:
       - group: kargo.akuity.io
         kind: Project
     appOfAppsRepo:
-      repoURL: https://github.com/kubriX-demo/team-1-apps
+      repoURL: https://github.com/kubriX-demo/team-awesome-apps
+      path: demo-apps
+      revision: main
+    multiStageKargoAppSet:
+      github:
+        organization: kubriX-demo
+
+
+# new team stanza for team kubrix
+  - name: kubrix
+    sourceRepos:
+      - '*'
+    clusterResourceWhitelist:
+      - group: ""
+        kind: Namespace
+      - group: kargo.akuity.io
+        kind: Project
+    appOfAppsRepo:
+      repoURL: https://github.com/kubriX-demo/kubrix-apps
       path: demo-apps
       revision: main
     multiStageKargoAppSet:
