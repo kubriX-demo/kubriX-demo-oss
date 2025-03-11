@@ -1,5 +1,5 @@
 
-<h3>Target <code>kiwigrid/k8s-sidecar:1.29.1 (alpine 3.21.2)</code></h3>
+<h3>Target <code>quay.io/kiwigrid/k8s-sidecar:1.30.0 (alpine 3.21.2)</code></h3>
 <h4>Vulnerabilities (2)</h4>
 <table>
     <tr>
