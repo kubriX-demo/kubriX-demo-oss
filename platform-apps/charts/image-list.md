@@ -4,7 +4,7 @@
 ## argocd
 * ghcr.io/dexidp/dex:v2.42.0
 * public.ecr.aws/docker/library/redis:7.4.2-alpine
-* quay.io/argoproj/argocd:v2.14.4
+* quay.io/argoproj/argocd:v2.14.5
 ## backstage
 * alpine:3.17
 * ghcr.io/suxess-it/sx-backstage:v1.32.6
@@ -50,7 +50,7 @@
 * quay.io/prometheus/node-exporter:v1.9.0
 * registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.15.0
 ## kargo
-* ghcr.io/akuity/kargo:v1.2.3
+* ghcr.io/akuity/kargo:v1.3.1
 ## keycloak
 * docker.io/bitnami/keycloak:26.1.2-debian-12-r0
 * docker.io/bitnami/postgresql:17.4.0-debian-12-r2
@@ -107,7 +107,6 @@
 * mirror.gcr.io/aquasec/trivy-operator:0.24.1
 ## vault
 * alpine/curl:latest
-* hashicorp/vault:1.17.2
 * hashicorp/vault:1.18.1
 ## velero-ui
 * docker.io/dserio83/velero-api:0.1.23

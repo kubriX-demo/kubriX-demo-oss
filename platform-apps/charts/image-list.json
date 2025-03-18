@@ -16,8 +16,8 @@
   },
   {
     "chart": "argocd",
-    "image": "quay.io/argoproj/argocd:v2.14.4",
-    "id": "argocd_argocd_v2.14.4"
+    "image": "quay.io/argoproj/argocd:v2.14.5",
+    "id": "argocd_argocd_v2.14.5"
   },
   {
     "chart": "backstage",
@@ -191,8 +191,8 @@
   },
   {
     "chart": "kargo",
-    "image": "ghcr.io/akuity/kargo:v1.2.3",
-    "id": "kargo_kargo_v1.2.3"
+    "image": "ghcr.io/akuity/kargo:v1.3.1",
+    "id": "kargo_kargo_v1.3.1"
   },
   {
     "chart": "keycloak",
@@ -408,11 +408,6 @@
     "chart": "vault",
     "image": "alpine/curl:latest",
     "id": "vault_curl_latest"
-  },
-  {
-    "chart": "vault",
-    "image": "hashicorp/vault:1.17.2",
-    "id": "vault_vault_1.17.2"
   },
   {
     "chart": "vault",
