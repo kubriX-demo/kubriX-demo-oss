@@ -3,7 +3,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>usr/local/bin/argocd</code></h3>
-<h4>Vulnerabilities (2)</h4>
+<h4>Vulnerabilities (3)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -11,6 +11,13 @@
         <th>Severity</th>
         <th>Installed Version</th>
         <th>Fixed Version</th>
+    </tr>
+    <tr>
+        <td><code>github.com/expr-lang/expr</code></td>
+        <td>CVE-2025-29786</td>
+        <td>HIGH</td>
+        <td>v1.16.9</td>
+        <td>1.17.0</td>
     </tr>
     <tr>
         <td><code>github.com/go-git/go-git/v5</code></td>
