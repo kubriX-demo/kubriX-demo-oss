@@ -195,6 +195,7 @@ groups:
             time() - max by(namespace, job_name, cluster) (kube_job_status_start_time{job!=""}
               and
             kube_job_status_active{job!=""} > 0) > 43200
+          for: 0s
           labels:
             severity: warning
           annotations:
@@ -445,6 +446,7 @@ groups:
         - alert: KubeletClientCertificateExpiration
           expr: |
             kubelet_certificate_manager_client_ttl_seconds < 604800
+          for: 0s
           labels:
             severity: warning
           annotations:
@@ -454,6 +456,7 @@ groups:
         - alert: KubeletClientCertificateExpiration
           expr: |
             kubelet_certificate_manager_client_ttl_seconds < 86400
+          for: 0s
           labels:
             severity: critical
           annotations:
@@ -463,6 +466,7 @@ groups:
         - alert: KubeletServerCertificateExpiration
           expr: |
             kubelet_certificate_manager_server_ttl_seconds < 604800
+          for: 0s
           labels:
             severity: warning
           annotations:
@@ -472,6 +476,7 @@ groups:
         - alert: KubeletServerCertificateExpiration
           expr: |
             kubelet_certificate_manager_server_ttl_seconds < 86400
+          for: 0s
           labels:
             severity: critical
           annotations:
