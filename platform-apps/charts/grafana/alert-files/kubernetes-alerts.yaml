@@ -2,6 +2,7 @@ apiVersion: 1
 groups:
     - name: kubernetes-apps
       folder: kubernetes-apps
+      interval: 60s
       rules:
         - alert: KubePodCrashLooping
           expr: |
