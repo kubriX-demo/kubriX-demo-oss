@@ -10,12 +10,9 @@ data:
     datasources:
     - name: alertmanager-mimir
       type: alertmanager
-      typeName: prometheus
-      uid: alertmanager-mimir
-      basicAuth: false
       url: http://{{ template "mimir.fullname" .Subcharts.mimir }}-nginx.{{ .Release.Namespace }}.svc:80/
+      basicAuth: false
       access: proxy
-      isDefault: true
       jsonData:
         implementation: mimir
         handleGrafanaManagedAlerts: false
