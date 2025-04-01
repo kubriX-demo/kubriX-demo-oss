@@ -11,7 +11,7 @@ data:
     - name: alertmanager-mimir
       type: alertmanager
       typeName: prometheus
-      uid: lertmanager-mimir
+      uid: alertmanager-mimir
       basicAuth: false
       url: http://{{ template "mimir.fullname" .Subcharts.mimir }}-nginx.{{ .Release.Namespace }}.svc:80/
       access: proxy
