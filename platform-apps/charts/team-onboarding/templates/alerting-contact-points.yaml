@@ -5,7 +5,7 @@ kind: ConfigMap
 metadata:
   labels:
     grafana_alert: "1"
-  name: kubernetes-alerts
+  name: alerting-contact-point-{{ .name }}
 data:
   contact-point-{{ .name }}.yaml: |-
     apiVersion: 1

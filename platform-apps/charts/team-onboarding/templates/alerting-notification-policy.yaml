@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     grafana_alert: "1"
-  name: kubernetes-alerts
+  name: alerting-notification-policy
 data:
   notification-policy.yaml: |-
     apiVersion: 1
