@@ -8,9 +8,9 @@ data:
   contact-points.yaml: |-
     apiVersion: 1
     contactPoints:
-        - orgId: 1
 {{- range .Values.teams }}
 {{- if .alerting }}
+        - orgId: 1
           name: {{ .name }}
 {{ toYaml .alerting | indent 10 }}
 {{ end -}}
