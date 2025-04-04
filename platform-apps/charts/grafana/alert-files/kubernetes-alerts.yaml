@@ -780,3 +780,438 @@ groups:
           labels:
             severity: info
           isPaused: false
+
+    - orgId: 1
+      name: kubernetes-system
+      folder: kubernetes-monitoring
+      interval: 1m
+      rules:
+        - uid: KubeVersionMismatch
+          title: KubeVersionMismatch
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  count by (cluster) (count by (git_version, cluster) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"git_version","$1","git_version","(v[0-9]*.[0-9]*).*"))) > 1
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: There are {{ $value }} different semantic versions of Kubernetes components running.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeversionmismatch
+            summary: Different semantic versions of Kubernetes components running.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeClientErrors
+          title: KubeClientErrors
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  (sum(rate(rest_client_requests_total{job="kube-apiserver",code=~"5.."}[5m])) by (cluster, instance, job, namespace)
+                    /
+                  sum(rate(rest_client_requests_total{job="kube-apiserver"}[5m])) by (cluster, instance, job, namespace))
+                  > 0.01
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance }}' is experiencing {{ $value | humanizePercentage }} errors.'
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
+            summary: Kubernetes API server client is experiencing errors.
+          labels:
+            severity: warning
+          isPaused: false
+
+    - orgId: 1
+      name: kubernetes-system-kubelet
+      folder: kubernetes-monitoring
+      interval: 1m
+      rules:
+        - uid: KubeNodeNotReady
+          title: KubeNodeNotReady
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kube_node_status_condition{job!="",condition="Ready",status="true"} == 0
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: '{{ $labels.node }} has been unready for more than 15 minutes.'
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodenotready
+            summary: Node is not ready.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeNodeUnreachable
+          title: KubeNodeUnreachable
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  (kube_node_spec_taint{job!="",key="node.kubernetes.io/unreachable",effect="NoSchedule"} unless ignoring(key,value) kube_node_spec_taint{job!="",key=~"ToBeDeletedByClusterAutoscaler|cloud.google.com/impending-node-termination|aws-node-termination-handler/spot-itn"}) == 1
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: '{{ $labels.node }} is unreachable and some workloads may be rescheduled.'
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodeunreachable
+            summary: Node is unreachable.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletTooManyPods
+          title: KubeletTooManyPods
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  count by(cluster, node) (
+                    (kube_pod_status_phase{job!="",phase="Running"} == 1) * on(instance,pod,namespace,cluster) group_left(node) topk by(instance,pod,namespace,cluster) (1, kube_pod_info{job!=""})
+                  )
+                  /
+                  max by(cluster, node) (
+                    kube_node_status_capacity{job!="",resource="pods"} != 1
+                  ) > 0.95
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubelet '{{ $labels.node }}' is running at {{ $value | humanizePercentage }} of its Pod capacity.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubelettoomanypods
+            summary: Kubelet is running at capacity.
+          labels:
+            severity: info
+          isPaused: false
+
+        - uid: KubeNodeReadinessFlapping
+          title: KubeNodeReadinessFlapping
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  sum(changes(kube_node_status_condition{job!="",status="true",condition="Ready"}[15m])) by (cluster, node) > 2
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: The readiness status of node {{ $labels.node }} has changed {{ $value }} times in the last 15 minutes.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodereadinessflapping
+            summary: Node readiness status is flapping.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletPlegDurationHigh
+          title: KubeletPlegDurationHigh
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile{quantile="0.99"} >= 10
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            description: The Kubelet Pod Lifecycle Event Generator has a 99th percentile duration of {{ $value }} seconds on node {{ $labels.node }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletplegdurationhigh
+            summary: Kubelet Pod Lifecycle Event Generator is taking too long to relist.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletPodStartUpLatencyHigh
+          title: KubeletPodStartUpLatencyHigh
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{job!=""}[5m])) by (cluster, instance, le)) * on(cluster, instance) group_left(node) kubelet_node_name{job!=""} > 60
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubelet Pod startup 99th percentile latency is {{ $value }} seconds on node {{ $labels.node }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletpodstartuplatencyhigh
+            summary: Kubelet Pod startup latency is too high.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletClientCertificateExpirationWarning
+          title: KubeletClientCertificateExpiration
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kubelet_certificate_manager_client_ttl_seconds < 604800
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          annotations:
+            description: Client certificate for Kubelet on node {{ $labels.node }} expires in {{ $value | humanizeDuration }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificateexpiration
+            summary: Kubelet client certificate is about to expire.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletClientCertificateExpirationCritical
+          title: KubeletClientCertificateExpiration
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kubelet_certificate_manager_client_ttl_seconds < 86400
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          annotations:
+            description: Client certificate for Kubelet on node {{ $labels.node }} expires in {{ $value | humanizeDuration }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificateexpiration
+            summary: Kubelet client certificate is about to expire.
+          labels:
+            severity: critical
+          isPaused: false
+
+        - uid: KubeletServerCertificateExpirationWarning
+          title: KubeletClientCertificateExpiration
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kubelet_certificate_manager_server_ttl_seconds < 604800
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          annotations:
+            description: Server certificate for Kubelet on node {{ $labels.node }} expires in {{ $value | humanizeDuration }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificateexpiration
+            summary: Kubelet server certificate is about to expire.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletServerCertificateExpirationCritical
+          title: KubeletClientCertificateExpiration
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kubelet_certificate_manager_server_ttl_seconds < 86400
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          annotations:
+            description: Server certificate for Kubelet on node {{ $labels.node }} expires in {{ $value | humanizeDuration }}.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificateexpiration
+            summary: Kubelet server certificate is about to expire.
+          labels:
+            severity: critical
+          isPaused: false
+
+        - uid: KubeletClientCertificateRenewalErrors
+          title: KubeletClientCertificateRenewalErrors
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  increase(kubelet_certificate_manager_client_expiration_renew_errors[5m]) > 0
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubelet on node {{ $labels.node }} has failed to renew its client certificate ({{ $value | humanize }} errors in the last 5 minutes).
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificaterenewalerrors
+            summary: Kubelet has failed to renew its client certificate.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletServerCertificateRenewalErrors
+          title: KubeletServerCertificateRenewalErrors
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  increase(kubelet_server_expiration_renew_errors[5m]) > 0
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubelet on node {{ $labels.node }} has failed to renew its server certificate ({{ $value | humanize }} errors in the last 5 minutes).
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificaterenewalerrors
+            summary: Kubelet has failed to renew its server certificate.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeletDown
+          title: KubeletDown
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  absent(up{job!=""} == 1)
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Kubelet in Cluster {{ $labels.cluster }}, has disappeared from Prometheus target discovery.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletdown
+            summary: Target disappeared from Prometheus target discovery.
+          labels:
+            severity: critical
+          isPaused: false
