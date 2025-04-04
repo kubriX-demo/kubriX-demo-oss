@@ -99,3 +99,35 @@ groups:
           labels:
             severity: warning
           isPaused: false
+
+        - uid: KubeDeploymentGenerationMismatch
+          title: KubeDeploymentGenerationMismatch
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kube_deployment_status_observed_generation{job!=""}
+                    !=
+                  kube_deployment_metadata_generation{job!=""}
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Deployment generation for {{ $labels.namespace }}/{{ $labels.deployment }} does not match, this indicates that the Deployment has failed but has not been rolled back.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentgenerationmismatch
+            summary: Deployment generation mismatch due to possible roll-back.
+          labels:
+            severity: warning
+          isPaused: false
