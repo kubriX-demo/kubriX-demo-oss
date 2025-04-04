@@ -5,7 +5,6 @@ groups:
       folder: kubernetes-monitoring
       interval: 1m
       rules:
-
         - uid: KubePodImagePullBackOff
           title: KubePodImagePullBackOff
           condition: A
@@ -34,7 +33,6 @@ groups:
           labels:
             severity: warning
           isPaused: false
-
         - uid: KubePodCrashLooping
           title: KubePodCrashLooping
           condition: A
@@ -63,7 +61,6 @@ groups:
           labels:
             severity: warning
           isPaused: false
-
         - uid: KubePodNotReady
           title: KubePodNotReady
           condition: A
