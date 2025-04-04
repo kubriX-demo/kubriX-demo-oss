@@ -5,6 +5,7 @@ groups:
       folder: kubernetes-monitoring
       interval: 1m
       rules:
+
         - uid: KubePodImagePullBackOff
           title: KubePodImagePullBackOff
           condition: A
@@ -30,8 +31,10 @@ groups:
             description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is in waiting state (reason: "ImagePullBackOff").'
             runbook_url: 'no runbook available'
             summary: Pod cannot pull the image
-          labels: {}
+          labels:
+            severity: warning
           isPaused: false
+
         - uid: KubePodCrashLooping
           title: KubePodCrashLooping
           condition: A
@@ -57,6 +60,42 @@ groups:
             description: 'Pod {{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) is in waiting state (reason: "CrashLoopBackOff").'
             runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping
             summary: Pod is crash looping.
-          labels: {}
+          labels:
+            severity: warning
           isPaused: false
 
+        - uid: KubePodNotReady
+          title: KubePodNotReady
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  sum by (namespace, pod, job, cluster) (
+                    max by(namespace, pod, job, cluster) (
+                      kube_pod_status_phase{job!="", phase=~"Pending|Unknown|Failed"}
+                    ) * on(namespace, pod, cluster) group_left(owner_kind) topk by(namespace, pod, cluster) (
+                      1, max by(namespace, pod, owner_kind, cluster) (kube_pod_owner{owner_kind!="Job"})
+                    )
+                  ) > 0
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 15 minutes.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready
+            summary: Pod has been in a non-ready state for more than 15 minutes.
+          labels:
+            severity: warning
+          isPaused: false
