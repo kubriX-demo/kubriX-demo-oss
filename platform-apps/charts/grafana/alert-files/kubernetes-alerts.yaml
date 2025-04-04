@@ -422,3 +422,144 @@ groups:
           labels:
             severity: warning
           isPaused: false
+
+        - uid: KubeJobFailed
+          title: KubeJobFailed
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kube_job_failed{job!=""}  > 0
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete. Removing failed job after investigation should clear this alert.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed
+            summary: Job failed to complete.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeHpaReplicasMismatch
+          title: KubeHpaReplicasMismatch
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  (kube_horizontalpodautoscaler_status_desired_replicas{job!=""}
+                    !=
+                  kube_horizontalpodautoscaler_status_current_replicas{job!=""})
+                    and
+                  (kube_horizontalpodautoscaler_status_current_replicas{job!=""}
+                    >
+                  kube_horizontalpodautoscaler_spec_min_replicas{job!=""})
+                    and
+                  (kube_horizontalpodautoscaler_status_current_replicas{job!=""}
+                    <
+                  kube_horizontalpodautoscaler_spec_max_replicas{job!=""})
+                    and
+                  changes(kube_horizontalpodautoscaler_status_current_replicas{job!=""}[15m]) == 0
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler  }} has not matched the desired number of replicas for longer than 15 minutes.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubehpareplicasmismatch
+            summary: HPA has not matched desired number of replicas.
+          labels:
+            severity: warning
+          isPaused: false
+
+        - uid: KubeHpaMaxedOut
+          title: KubeHpaMaxedOut
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  kube_horizontalpodautoscaler_status_current_replicas{job!=""}
+                    ==
+                  kube_horizontalpodautoscaler_spec_max_replicas{job!=""}
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 15m
+          annotations:
+            description: HPA {{ $labels.namespace }}/{{ $labels.horizontalpodautoscaler  }} has been running at max replicas for longer than 15 minutes.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubehpamaxedout
+            summary: HPA is running at max replicas.
+          labels:
+            severity: warning
+          isPaused: false
+
+    - orgId: 1
+      name: kubernetes-resources
+      folder: kubernetes-monitoring
+      interval: 1m
+      rules:
+        - uid: KubeCPUOvercommit
+          title: KubeCPUOvercommit
+          condition: A
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: mimir
+              model:
+                editorMode: builder
+                expr: |
+                  sum(namespace_cpu:kube_pod_container_resource_requests:sum{job!="",}) by (cluster) - (sum(kube_node_status_allocatable{job!="",resource="cpu"}) by (cluster) - max(kube_node_status_allocatable{job!="",resource="cpu"}) by (cluster)) > 0
+                  and
+                  (sum(kube_node_status_allocatable{job!="",resource="cpu"}) by (cluster) - max(kube_node_status_allocatable{job!="",resource="cpu"}) by (cluster)) > 0
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: A
+          noDataState: NoData
+          execErrState: Error
+          for: 10m
+          annotations:
+            description: Cluster {{ $labels.cluster }} has overcommitted CPU resource requests for Pods by {{ $value }} CPU shares and cannot tolerate node failure.
+            runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecpuovercommit
+            summary: Cluster has overcommitted CPU resource requests.
+          labels:
+            severity: warning
+          isPaused: false
