@@ -108,16 +108,14 @@
             * on (cluster, namespace, pod) group_left(node) topk by(cluster, namespace, pod) (1,
               max by(cluster, namespace, pod, node) (kube_pod_info{node!=""})
             )
-    - name: k8s.windows-rules.container_memory_working_set_bytes
+    - name: k8s.rules.container_memory_working_set_bytes
       rules:
-        - record: container_memory_working_set_bytes
+        - record: node_namespace_pod_container:container_memory_working_set_bytes
           expr: |
-            label_replace(
-              label_replace(
-                windows_container_memory_usage_private_working_set_bytes{} * on(container_id) group_left(namespace, pod, container)
-                topk by (container_id) (1, kube_pod_container_info{container_id != ""}),
-                "id", "$1", "container_id", "(.*)"
-              ), "image", "<not-supported-on-windows>", "", "")
+            container_memory_working_set_bytes{job!="", image!=""}
+            * on (cluster, namespace, pod) group_left(node) topk by(cluster, namespace, pod) (1,
+              max by(cluster, namespace, pod, node) (kube_pod_info{node!=""})
+            )
     - name: k8s.rules.pod_owner
       rules:
         - record: namespace_workload_pod:kube_pod_owner:relabel
