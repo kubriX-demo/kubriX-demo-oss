@@ -1,6 +1,0 @@
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: "kubernetes-monitoring"
-spec:
-    {{- $.Files.Get "alert-files/kubernetes-monitoring.yaml" | nindent 2 }}
