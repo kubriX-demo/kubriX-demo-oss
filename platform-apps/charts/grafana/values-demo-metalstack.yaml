@@ -11,7 +11,11 @@ kubernetesAlerts:
 ##
 grafana:
   adminPassword: prom-operator
-  envFromSecret: grafana-env-secret
+  envFromSecrets: 
+    - name: grafana-env-secret
+    - name: team-onboarding-alerting-secret
+      prefix: "KUBRIX"
+      optional: true
   grafana.ini:
     server:
       root_url: "https://grafana.demo.kubrix.cloud"
