@@ -14,7 +14,7 @@ grafana:
   envFromSecrets: 
     - name: grafana-env-secret
     - name: team-onboarding-alerting-secret
-      prefix: "KUBRIX"
+      prefix: "KUBRIX_"
       optional: true
   grafana.ini:
     server:
