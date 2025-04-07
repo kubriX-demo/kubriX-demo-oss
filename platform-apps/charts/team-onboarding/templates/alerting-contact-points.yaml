@@ -12,6 +12,6 @@ data:
 {{- if .alerting }}
         - orgId: 1
           name: {{ .name }}
-{{ toYaml .alerting | indent 10 }}
+{{ toYaml .alerting.contactPoints | indent 10 }}
 {{ end -}}
 {{ end -}}
