@@ -37,8 +37,6 @@ teams:
       github:
         organization: kubriX-demo
     alerting:
-      secrets:
-        - KUBRIX_MSTEAMS_WEBHOOK
       contactPoints:
         receivers:
           - uid: kubrix-team
