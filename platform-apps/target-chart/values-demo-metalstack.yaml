@@ -91,6 +91,8 @@ applications:
 
   - name: kubevirt
 
+  - name: kubecost
+
   - name: velero
 
   - name: velero-ui
