@@ -28,7 +28,8 @@ cost-analyzer:
     enabled: true
     className: nginx
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-staging
+        external-dns.alpha.kubernetes.io/ttl: "60"
+        cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
       - kubecost.demo.kubrix.cloud
     tls: 
@@ -38,8 +39,8 @@ cost-analyzer:
 
   # Define persistence volume for cost-analyzer, more information at https://docs.kubecost.com/install-and-configure/install/storage
   persistentVolume:
-    size: 5Gi
-    dbSize: 5Gi
+    size: 32Gi
+    dbSize: 32Gi
     enabled: true  # Note that setting this to false means configurations will be wiped out on pod restart.
 
   grafana:
