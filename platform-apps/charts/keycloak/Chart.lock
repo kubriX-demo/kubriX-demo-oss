@@ -1,12 +1,12 @@
 dependencies:
 - name: keycloak
   repository: https://charts.bitnami.com/bitnami
-  version: 24.4.10
+  version: 24.5.1
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 16.4.14
+  version: 16.6.3
 - name: cluster
   repository: https://cloudnative-pg.github.io/charts
-  version: 0.2.1
-digest: sha256:bc4114d4fde2bad2e72d93cc3de6322c1cc252c200d8dfa1bf6531de6281ddf5
-generated: "2025-03-03T14:53:56.140641+01:00"
+  version: 0.3.0
+digest: sha256:b65cb64e3d60be422e9a40ba2ee2860157d686c3280d7604b0785fb561f2169a
+generated: "2025-04-10T21:08:30.33927+02:00"
