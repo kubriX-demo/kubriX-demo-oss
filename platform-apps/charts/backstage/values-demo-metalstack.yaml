@@ -391,6 +391,7 @@ cluster:
     instances: 3
     walStorage:
       enabled: true
+      size: 4Gi
     monitoring:
       enabled: true
     superuserSecret: cnpg-superuser-secret
