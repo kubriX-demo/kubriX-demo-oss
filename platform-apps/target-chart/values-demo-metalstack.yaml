@@ -100,3 +100,5 @@ applications:
   - name: backstage
     annotations:
       argocd.argoproj.io/sync-wave: "10"
+
+  - name: usp-waap
