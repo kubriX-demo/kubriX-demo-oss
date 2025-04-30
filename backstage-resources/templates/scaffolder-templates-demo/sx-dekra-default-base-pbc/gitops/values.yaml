@@ -4,7 +4,7 @@ fullnameOverride: ""
 # applies to all deployments in this chart
 replicaCount: 1
 image:
-  name: ghcr.io/open-liberty
+  name: docker.io/open-liberty
   pullPolicy: IfNotPresent
   pullSecrets: []
     # - name: ghcr
