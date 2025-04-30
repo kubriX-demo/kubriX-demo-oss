@@ -92,7 +92,7 @@ spec:
       name: Publish Template Gitops Repo
       action: publish:github
       input:
-        sourcePath: ./kargo-gitops
+        sourcePath: ./gitops
         allowedHosts: ['github.com']
         description: This is the Business Capability ${{ parameters.application_id }}
         #repoUrl: ${{ parameters.repoUrl }}
