@@ -17,10 +17,6 @@ spec:
       labels:
         app.kubernetes.io/component: "default-component"
     spec:
-      {{- with .Values.images.pullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
