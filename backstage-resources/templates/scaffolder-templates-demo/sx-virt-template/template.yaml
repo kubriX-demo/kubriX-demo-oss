@@ -11,7 +11,7 @@ metadata:
     - kubrix
 spec:
   owner: group:kubrix
-  type: system
+  type: infrastructure
   
   parameters:
     - title: Provide information on this application
