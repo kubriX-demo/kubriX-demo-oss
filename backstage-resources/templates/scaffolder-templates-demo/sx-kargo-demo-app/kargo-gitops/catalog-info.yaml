@@ -21,6 +21,7 @@ spec:
     paths:
       /hat:
         get: show hat
+---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
@@ -43,6 +44,7 @@ spec:
     paths:
       /left-leg:
         get: show hat
+---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
@@ -65,6 +67,7 @@ spec:
     paths:
       /entry:
         get: show podtato-head
+---
 # prod
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -105,10 +108,10 @@ spec:
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
   providesApis:
-    - entry
+    - podtato-head-entry-api
   consumesApis:
-    - had
-    - left-leg
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 #qa
 apiVersion: backstage.io/v1alpha1
@@ -150,10 +153,10 @@ spec:
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
   providesApis:
-    - entry
+    - podtato-head-entry-api
   consumesApis:
-    - had
-    - left-leg
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 # test
 apiVersion: backstage.io/v1alpha1
@@ -195,10 +198,10 @@ spec:
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
   providesApis:
-    - entry
+    - podtato-head-entry-api
   consumesApis:
-    - had
-    - left-leg
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 # main, at the end of catalog-info.yaml so that register link is on main component
 apiVersion: backstage.io/v1alpha1
