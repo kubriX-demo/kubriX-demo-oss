@@ -1,6 +1,10 @@
 scmAppsetRequeueAfterSeconds: 60
 multiStageKargoAppSetHelmRepo: "https://github.com/kubriX-demo/kubriX-demo-oss"
 
+destinationClusters:
+  - name: in-cluster
+    allowedTeams: [".*"]
+
 teams:
   - name: team-awesome
     sourceRepos:
