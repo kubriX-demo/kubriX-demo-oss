@@ -1257,7 +1257,7 @@
 <h4>No Misconfigurations found</h4>
 
 <h3>Target <code>gcr.io/kubecost1/kubecost-modeling:v0.1.24 (redhat 9.5)</code></h3>
-<h4>Vulnerabilities (3)</h4>
+<h4>Vulnerabilities (9)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -1285,6 +1285,48 @@
         <td>CVE-2025-49796</td>
         <td>HIGH</td>
         <td>2.9.13-6.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12</code></td>
+        <td>CVE-2024-12718</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12</code></td>
+        <td>CVE-2025-4138</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12</code></td>
+        <td>CVE-2025-4517</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12-libs</code></td>
+        <td>CVE-2024-12718</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12-libs</code></td>
+        <td>CVE-2025-4138</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>python3.12-libs</code></td>
+        <td>CVE-2025-4517</td>
+        <td>HIGH</td>
+        <td>3.12.5-2.el9_5.2</td>
         <td></td>
     </tr>
 </table>

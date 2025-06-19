@@ -1,6 +1,6 @@
 
 <h3>Target <code>bitnami/kubectl:1.30.2 (debian 12.6)</code></h3>
-<h4>Vulnerabilities (42)</h4>
+<h4>Vulnerabilities (46)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -155,6 +155,34 @@
         <td>HIGH</td>
         <td>5.4.1-0.2</td>
         <td>5.4.1-1</td>
+    </tr>
+    <tr>
+        <td><code>libpam-modules</code></td>
+        <td>CVE-2025-6020</td>
+        <td>HIGH</td>
+        <td>1.5.2-6+deb12u1</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>libpam-modules-bin</code></td>
+        <td>CVE-2025-6020</td>
+        <td>HIGH</td>
+        <td>1.5.2-6+deb12u1</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>libpam-runtime</code></td>
+        <td>CVE-2025-6020</td>
+        <td>HIGH</td>
+        <td>1.5.2-6+deb12u1</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>libpam0g</code></td>
+        <td>CVE-2025-6020</td>
+        <td>HIGH</td>
+        <td>1.5.2-6+deb12u1</td>
+        <td></td>
     </tr>
     <tr>
         <td><code>libperl5.36</code></td>
