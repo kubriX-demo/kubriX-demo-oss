@@ -2,7 +2,7 @@
 <h3>Trivy Returned Empty Report</h3>
 
 <h3>Target <code>docker.io/dpage/pgadmin4:9.2 (alpine 3.21.3)</code></h3>
-<h4>Vulnerabilities (14)</h4>
+<h4>Vulnerabilities (20)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -27,6 +27,13 @@
     </tr>
     <tr>
         <td><code>pyc</code></td>
+        <td>CVE-2025-4330</td>
+        <td>HIGH</td>
+        <td>3.12.9-r0</td>
+        <td>3.12.11-r0</td>
+    </tr>
+    <tr>
+        <td><code>pyc</code></td>
         <td>CVE-2025-4517</td>
         <td>HIGH</td>
         <td>3.12.9-r0</td>
@@ -48,6 +55,13 @@
     </tr>
     <tr>
         <td><code>python3</code></td>
+        <td>CVE-2025-4330</td>
+        <td>HIGH</td>
+        <td>3.12.9-r0</td>
+        <td>3.12.11-r0</td>
+    </tr>
+    <tr>
+        <td><code>python3</code></td>
         <td>CVE-2025-4517</td>
         <td>HIGH</td>
         <td>3.12.9-r0</td>
@@ -63,6 +77,13 @@
     <tr>
         <td><code>python3-pyc</code></td>
         <td>CVE-2025-4138</td>
+        <td>HIGH</td>
+        <td>3.12.9-r0</td>
+        <td>3.12.11-r0</td>
+    </tr>
+    <tr>
+        <td><code>python3-pyc</code></td>
+        <td>CVE-2025-4330</td>
         <td>HIGH</td>
         <td>3.12.9-r0</td>
         <td>3.12.11-r0</td>
@@ -84,6 +105,13 @@
     <tr>
         <td><code>python3-pycache-pyc0</code></td>
         <td>CVE-2025-4138</td>
+        <td>HIGH</td>
+        <td>3.12.9-r0</td>
+        <td>3.12.11-r0</td>
+    </tr>
+    <tr>
+        <td><code>python3-pycache-pyc0</code></td>
+        <td>CVE-2025-4330</td>
         <td>HIGH</td>
         <td>3.12.9-r0</td>
         <td>3.12.11-r0</td>
@@ -101,6 +129,20 @@
         <td>HIGH</td>
         <td>3.48.0-r0</td>
         <td>3.48.0-r1</td>
+    </tr>
+    <tr>
+        <td><code>sudo</code></td>
+        <td>CVE-2025-32462</td>
+        <td>HIGH</td>
+        <td>1.9.16_p2-r0</td>
+        <td>1.9.17_p1-r0</td>
+    </tr>
+    <tr>
+        <td><code>sudo</code></td>
+        <td>CVE-2025-32463</td>
+        <td>HIGH</td>
+        <td>1.9.16_p2-r0</td>
+        <td>1.9.17_p1-r0</td>
     </tr>
     <tr>
         <td><code>xz-libs</code></td>
