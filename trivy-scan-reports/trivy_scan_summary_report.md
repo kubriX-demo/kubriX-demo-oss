@@ -3,7 +3,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>usr/local/bin/trivy-operator</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -32,6 +32,13 @@
         <td>HIGH</td>
         <td>v1.1.0</td>
         <td>1.4.0</td>
+    </tr>
+    <tr>
+        <td><code>helm.sh/helm/v3</code></td>
+        <td>CVE-2025-53547</td>
+        <td>HIGH</td>
+        <td>v3.17.1</td>
+        <td>3.18.4</td>
     </tr>
     <tr>
         <td><code>stdlib</code></td>
