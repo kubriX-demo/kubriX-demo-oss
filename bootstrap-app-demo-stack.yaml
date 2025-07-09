@@ -8,12 +8,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/suxess-it/kubriX
+    repoURL: https://github.com/kubriX-demo/kubriX-demo
     targetRevision: main
     path: platform-apps/target-chart
     helm:
       valueFiles:
-        - values-metalstack.yaml
+        - values-demo-stack.yaml
       parameters:
         - name: default.repoURL
           value: $ARGOCD_APP_SOURCE_REPO_URL
