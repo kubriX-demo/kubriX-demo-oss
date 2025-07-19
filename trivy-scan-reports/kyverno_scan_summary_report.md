@@ -413,7 +413,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>opt/bitnami/kubectl/.spdx-kubectl.spdx</code></h3>
-<h4>Vulnerabilities (1)</h4>
+<h4>Vulnerabilities (2)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -421,6 +421,13 @@
         <th>Severity</th>
         <th>Installed Version</th>
         <th>Fixed Version</th>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.10.0</td>
+        <td>0.27.0</td>
     </tr>
     <tr>
         <td><code>stdlib</code></td>
@@ -432,7 +439,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>opt/bitnami/kubectl/bin/kubectl</code></h3>
-<h4>Vulnerabilities (1)</h4>
+<h4>Vulnerabilities (2)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -440,6 +447,13 @@
         <th>Severity</th>
         <th>Installed Version</th>
         <th>Fixed Version</th>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.10.0</td>
+        <td>0.27.0</td>
     </tr>
     <tr>
         <td><code>stdlib</code></td>
@@ -457,7 +471,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/background-controller</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -493,6 +507,13 @@
         <td>HIGH</td>
         <td>v0.32.0</td>
         <td>0.35.0</td>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
     </tr>
 </table>
 <h4>No Misconfigurations found</h4>
@@ -501,7 +522,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/cleanup-controller</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -538,6 +559,13 @@
         <td>v0.32.0</td>
         <td>0.35.0</td>
     </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
+    </tr>
 </table>
 <h4>No Misconfigurations found</h4>
 
@@ -545,7 +573,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/kubectl-kyverno</code></h3>
-<h4>Vulnerabilities (6)</h4>
+<h4>Vulnerabilities (7)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -596,6 +624,13 @@
         <td>v0.32.0</td>
         <td>0.35.0</td>
     </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
+    </tr>
 </table>
 <h4>No Misconfigurations found</h4>
 
@@ -603,7 +638,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/kyverno</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -639,6 +674,13 @@
         <td>HIGH</td>
         <td>v0.32.0</td>
         <td>0.35.0</td>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
     </tr>
 </table>
 <h4>No Misconfigurations found</h4>
@@ -647,7 +689,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/kyverno-init</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -683,6 +725,13 @@
         <td>HIGH</td>
         <td>v0.32.0</td>
         <td>0.35.0</td>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
     </tr>
 </table>
 <h4>No Misconfigurations found</h4>
@@ -691,7 +740,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>ko-app/reports-controller</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -727,6 +776,13 @@
         <td>HIGH</td>
         <td>v0.32.0</td>
         <td>0.35.0</td>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.23.0</td>
+        <td>0.27.0</td>
     </tr>
 </table>
 <h4>No Misconfigurations found</h4>

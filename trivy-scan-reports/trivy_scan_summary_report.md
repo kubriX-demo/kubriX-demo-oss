@@ -3,7 +3,7 @@
 <h4>No Vulnerabilities found</h4>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>usr/local/bin/trivy-operator</code></h3>
-<h4>Vulnerabilities (5)</h4>
+<h4>Vulnerabilities (6)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -32,6 +32,13 @@
         <td>HIGH</td>
         <td>v1.1.0</td>
         <td>1.4.0</td>
+    </tr>
+    <tr>
+        <td><code>golang.org/x/oauth2</code></td>
+        <td>CVE-2025-22868</td>
+        <td>HIGH</td>
+        <td>v0.25.0</td>
+        <td>0.27.0</td>
     </tr>
     <tr>
         <td><code>helm.sh/helm/v3</code></td>
