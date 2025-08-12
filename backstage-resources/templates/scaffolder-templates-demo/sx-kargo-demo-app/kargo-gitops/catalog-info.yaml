@@ -1,3 +1,73 @@
+# apis
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: podtato-head-hat-api
+  description: Retrieve artist details
+spec:
+  type: openapi
+  lifecycle: production
+  owner: kubrix-team
+  system: demo-system
+  definition: |
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Artist API
+      license:
+        name: MIT
+    servers:
+      - url: http://demo.kubrix.cloud
+    paths:
+      /hat:
+        get: show hat
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: podtato-head-left-leg-api
+  description: Retrieve artist details
+spec:
+  type: openapi
+  lifecycle: production
+  owner: kubrix-team
+  system: demo-system
+  definition: |
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Artist API
+      license:
+        name: MIT
+    servers:
+      - url: http://demo.kubrix.cloud
+    paths:
+      /left-leg:
+        get: show hat
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: podtato-head-entry-api
+  description: Retrieve artist details
+spec:
+  type: openapi
+  lifecycle: production
+  owner: kubrix-team
+  system: demo-system
+  definition: |
+    openapi: "3.0.0"
+    info:
+      version: 1.0.0
+      title: Artist API
+      license:
+        name: MIT
+    servers:
+      - url: http://demo.kubrix.cloud
+    paths:
+      /entry:
+        get: show podtato-head
+---
 # prod
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -37,6 +107,11 @@ spec:
     - resource:tempo
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
+  providesApis:
+    - podtato-head-entry-api
+  consumesApis:
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 #qa
 apiVersion: backstage.io/v1alpha1
@@ -77,6 +152,11 @@ spec:
     - resource:tempo
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
+  providesApis:
+    - podtato-head-entry-api
+  consumesApis:
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 # test
 apiVersion: backstage.io/v1alpha1
@@ -117,6 +197,11 @@ spec:
     - resource:tempo
     - resource:backstage
   subcomponentOf: ${{values.team}}-${{values.application_id}}
+  providesApis:
+    - podtato-head-entry-api
+  consumesApis:
+    - podtato-head-hat-api
+    - podtato-head-left-leg-api
 ---
 # main, at the end of catalog-info.yaml so that register link is on main component
 apiVersion: backstage.io/v1alpha1
