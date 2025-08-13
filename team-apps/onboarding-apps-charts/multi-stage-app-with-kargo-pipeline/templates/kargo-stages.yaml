@@ -71,6 +71,10 @@ spec:
             namespace: {{ $.Release.Namespace }}
             sources:
             - repoURL: ${{`{{ vars.gitRepo }}`}}
+              {{- if .openPr }}
+              desiredRevision: ${{`{{ outputs.wait-for-pr.commit }}`}}
+              {{- else }}
               desiredRevision: ${{`{{ outputs.commit.commit }}`}}
+              {{- end }}
 ---
 {{- end }}
