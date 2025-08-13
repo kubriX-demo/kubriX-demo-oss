@@ -72,7 +72,7 @@ spec:
             sources:
             - repoURL: ${{`{{ vars.gitRepo }}`}}
               {{- if .openPr }}
-              desiredRevision: ${{`{{ outputs.wait-for-pr.commit }}`}}
+              desiredRevision: ${{`{{ outputs['wait-for-pr'].commit }}`}}
               {{- else }}
               desiredRevision: ${{`{{ outputs.commit.commit }}`}}
               {{- end }}
