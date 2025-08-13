@@ -56,7 +56,8 @@ spec:
           prNumber: ${{`{{ outputs['open-pr'].pr.id }}`}}
           repoURL: ${{`{{ vars.gitRepo }}`}}
         retry:
-          timeout: 1m0s
+          timeout: 48h
+          
       {{- else }}
       - uses: git-push
         config:
