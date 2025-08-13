@@ -1,10 +1,17 @@
 # Bootstrap kubriX
 
-## Fully automated bootstrapping
+With this step-by-step guide kubriX with its default KIND-DELIVERY stack gets deployed on your local KinD cluster.
 
-Steps:
+## Prerequisites
+
+* kubectl
+* jq
+* yq
+
+## Installation steps
 
 1. create new empty customer repo on your Git-Server (GitLab, GitHub, Gitea, ...).
+    We fully tested this with GitHub, but others should also work.
 
     IMPORTANT: the repo needs to be empty (also no initial README!!!)
 
@@ -20,10 +27,18 @@ Steps:
     export KUBRIX_CUSTOMER_REPO_TOKEN="blabla"
     ```
 
-4. optional: set the domain, under which kubriX should be available.
+4. optional: set the DNS provider, which external-dns should connect to.
 
-    this domain will be used by external-dns.
-    TODO: customizing external-dns is not explained here and not part of bootstrap yet. So it will only work with ionos and 'kubrix.cloud' domain.
+    default: ionos  
+    supported: ionos, route53, stackit, cloudflare
+
+    ```
+    export KUBRIX_CUSTOMER_DNS_PROVIDER="ionos"
+    ```
+
+5. optional: set the domain, under which kubriX should be available.
+
+    This domain will be used by external-dns. Your provider in step 4 needs to be able to manage this domain with the credentials set in step 8.
 
     ```
     export KUBRIX_CUSTOMER_DOMAIN="demo-johnny.kubrix.cloud"
@@ -31,31 +46,117 @@ Steps:
 
     if this variable is not set, a subdomain of "kubrix.cloud" is randomly created (for example "demo-2faf23d.kubrix.cloud")
 
-5. optional: set the kubrix target type which should be used
+6. optional: set the kubrix target type which should be used
 
     ```
-    export KUBRIX_CUSTOMER_TARGET_TYPE="DEMO-METALSTACK"
+    export KUBRIX_CUSTOMER_TARGET_TYPE="DEMO-STACK"
     ```
 
-    if this variable is not set, "DEMO-METALSTACK" is used.
+    if this variable is not set, "DEMO-STACK" is used.
 
-6. create a new Kubernetes cluster and be sure that kubectl is connected to it. check with `kubectl cluster-info`
+7. create a new Kubernetes cluster and be sure that kubectl is connected to it. check with `kubectl cluster-info`
 
-7. If you need to prepare something on your cluster do this now. We at kubriX for example need to create our ionos dns api key:
+8. provide external-dns secrets depending on your DNS provider
+
+    __ionos__
+
+    create a secret with your DNS api-key like this:
 
     ```
     kubectl create ns external-dns
-    kubectl create secret generic ionos-credentials -n external-dns --from-literal=api-key='topsecret'
+    kubectl create secret generic ionos-credentials -n external-dns --from-literal=api-key='your-api-key'
     ```
 
-8. Then run this command in your home directory in your linux bash:
+    __aws__
+
+    create a `credentials` file like this:
+
+    ```
+    [default]
+    aws_access_key_id = your-key-id
+    aws_secret_access_key = your-access-key
+    ```
+
+    and then create the secret on the K8s cluster based on this `credentials` file:
+    ```
+    kubectl create ns external-dns
+    kubectl create secret generic -n external-dns sx-external-dns --from-file credentials
+    ```
+
+    __stackit__
+
+    ```
+    kubectl create ns external-dns
+    kubectl create secret generic external-dns-webhook -n external-dns --from-literal=AUTH_TOKEN='your-auth-token'
+    --from-literal=PROJECT_ID='your-project-id'
+    ```
+
+    __cloudflare__
+
+    ```
+    kubectl create ns external-dns
+    kubectl create secret generic cloudflare-api-key --from-literal=apiKey=`YOUR_API_TOKEN`
+    ```
+
+9. If you need to prepare something else on your cluster before kubriX gets installed, do this now.
+
+
+10. Then run this command in your home directory in your linux bash:
 
     ```
     curl -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/suxess-it/kubriX/refs/heads/main/bootstrap/bootstrap.sh | bash -s
     ```
 
-It will create a new kubriX repo based on your parameters and installs kubriX based on your created kubriX repo on your connected K8s cluster.
+    It will create a new kubriX repo based on your parameters and installs kubriX based on your created kubriX repo on your connected K8s cluster.
 
+11. Create Github OAuth App and set secrets in vault
+
+    The Platform-Portal authenticates via GitHub OAuth App. Therefore you need to create a OAuth App in your [developer settings](https://github.com/organizations/YOUR-ORG/settings/applications).
+    Click the button "New OAuth App".
+    
+    Homepage URL and Authorization callback URL must match "https://backstage.${KUBRIX_CUSTOMER_DOMAIN}"
+
+    Example:
+    - Homepage URL: `backstage.demo-johnny.kubrix.cloud`
+    - Authorization callback URL: `backstage.demo-johnny.kubrix.cloud/api/auth/github`
+
+    <img width="549" height="638" alt="image" src="https://github.com/user-attachments/assets/2bed4a26-8990-49ab-afaf-2daaf0138261" />
+
+    After clicking "Register application", click on "Generate a new client secret".
+
+    <img width="1035" height="550" alt="image" src="https://github.com/user-attachments/assets/df3c94da-10e2-4315-8411-e1fa5c282ff8" />
+
+    Use the value of the "Client ID" for the variable `GITHUB_CLIENTID` in the step below. 
+    Use the generated client secret as the value for the variable `GITHUB_CLIENTSECRET` in the step below.
+
+    Then set GITHUB_CLIENTSECRET and GITHUB_CLIENTID from your Github OAuth App and set them in vault via kubectl/curl:
+
+    ```
+    export GITHUB_CLIENTID="<client-id-from-step-before>"
+    export GITHUB_CLIENTSECRET="<client-secret-from-step-before>"
+    export VAULT_HOSTNAME=$(kubectl get ingress -o jsonpath='{.items[*].spec.rules[*].host}' -n vault)
+    export VAULT_TOKEN=$(kubectl get secret -n vault vault-init -o=jsonpath='{.data.root_token}'  | base64 -d)
+    curl -k --header "X-Vault-Token:$VAULT_TOKEN" --request PATCH --header "Content-Type: application/merge-patch+json" --data "{\"data\": {\"GITHUB_CLIENTSECRET\": \"${GITHUB_CLIENTSECRET}\", \"GITHUB_CLIENTID\": \"${GITHUB_CLIENTID}\"}}" https://${VAULT_HOSTNAME}/v1/kubrix-kv/data/portal/backstage/base
+    kubectl delete externalsecret -n backstage sx-cnp-secret
+    kubectl rollout restart deployment -n backstage sx-backstage
+    ```
+
+12. Define user entities in backstage
+
+    Before users can login via GitHub in backstage, there needs to be a matching User entity in your own kubriX repo in `backstage-resources/entities/all.yaml`
+
+    ```
+    apiVersion: backstage.io/v1alpha1
+    kind: User
+    metadata:
+      name: <github-user>
+    spec:
+      profile:
+        displayName: <github-user>
+        email: guest@example.com
+        picture: https://api.dicebear.com/9.x/adventurer-neutral/svg
+      memberOf: [kubrix]
+    ```
 
 ## background information
 
