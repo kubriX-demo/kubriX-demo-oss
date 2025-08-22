@@ -4,7 +4,7 @@
 <h4>No Misconfigurations found</h4>
 
 <h3>Target <code>ghcr.io/suxess-it/sx-backstage:v1.32.6 (debian 12.9)</code></h3>
-<h4>Vulnerabilities (360)</h4>
+<h4>Vulnerabilities (357)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -68,6 +68,13 @@
         <td>HIGH</td>
         <td>2.5.0-1+deb12u1</td>
         <td></td>
+    </tr>
+    <tr>
+        <td><code>libgnutls30</code></td>
+        <td>CVE-2025-32988</td>
+        <td>HIGH</td>
+        <td>3.7.9-2+deb12u3</td>
+        <td>3.7.9-2+deb12u5</td>
     </tr>
     <tr>
         <td><code>libgnutls30</code></td>
@@ -1499,13 +1506,6 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-38066</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td>6.1.147-1</td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-38071</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -2269,13 +2269,6 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-38500</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-38524</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -2298,13 +2291,6 @@
     <tr>
         <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-38550</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-38553</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
         <td></td>
@@ -2389,13 +2375,6 @@
     <tr>
         <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-38602</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-38604</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
         <td></td>
@@ -2536,7 +2515,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>Node.js</code></h3>
-<h4>Vulnerabilities (21)</h4>
+<h4>Vulnerabilities (22)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -2635,6 +2614,13 @@
         <td>HIGH</td>
         <td>2.3.3</td>
         <td>3.9.8</td>
+    </tr>
+    <tr>
+        <td><code>sha.js</code></td>
+        <td>CVE-2025-9288</td>
+        <td>CRITICAL</td>
+        <td>2.4.11</td>
+        <td>2.4.12</td>
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
