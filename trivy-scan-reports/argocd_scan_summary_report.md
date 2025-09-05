@@ -397,7 +397,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>usr/local/bin/argocd</code></h3>
-<h4>Vulnerabilities (4)</h4>
+<h4>Vulnerabilities (5)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -412,6 +412,13 @@
         <td>CRITICAL</td>
         <td>2.14.10</td>
         <td>2.13.8, 2.14.13</td>
+    </tr>
+    <tr>
+        <td><code>github.com/argoproj/argo-cd/v2</code></td>
+        <td>CVE-2025-55190</td>
+        <td>CRITICAL</td>
+        <td>2.14.10</td>
+        <td>2.13.9, 2.14.16</td>
     </tr>
     <tr>
         <td><code>golang.org/x/crypto</code></td>
