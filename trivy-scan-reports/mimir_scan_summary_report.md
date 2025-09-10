@@ -344,7 +344,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>usr/bin/minio</code></h3>
-<h4>Vulnerabilities (8)</h4>
+<h4>Vulnerabilities (9)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -359,6 +359,13 @@
         <td>HIGH</td>
         <td>v1.11.2</td>
         <td>1.12.2</td>
+    </tr>
+    <tr>
+        <td><code>github.com/coredns/coredns</code></td>
+        <td>CVE-2025-58063</td>
+        <td>HIGH</td>
+        <td>v1.11.2</td>
+        <td>1.12.4</td>
     </tr>
     <tr>
         <td><code>github.com/golang-jwt/jwt/v4</code></td>
