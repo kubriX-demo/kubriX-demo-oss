@@ -189,7 +189,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>Python</code></h3>
-<h4>Vulnerabilities (3)</h4>
+<h4>Vulnerabilities (4)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -197,6 +197,13 @@
         <th>Severity</th>
         <th>Installed Version</th>
         <th>Fixed Version</th>
+    </tr>
+    <tr>
+        <td><code>Authlib</code></td>
+        <td>CVE-2025-59420</td>
+        <td>HIGH</td>
+        <td>1.4.1</td>
+        <td>1.6.4</td>
     </tr>
     <tr>
         <td><code>h11</code></td>
