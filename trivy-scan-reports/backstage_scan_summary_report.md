@@ -4,7 +4,7 @@
 <h4>No Misconfigurations found</h4>
 
 <h3>Target <code>ghcr.io/suxess-it/sx-backstage:v1.32.6 (debian 12.9)</code></h3>
-<h4>Vulnerabilities (408)</h4>
+<h4>Vulnerabilities (409)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -2752,6 +2752,13 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
+        <td>CVE-2025-39889</td>
+        <td>HIGH</td>
+        <td>6.1.128-1</td>
+        <td>6.1.135-1</td>
+    </tr>
+    <tr>
+        <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-40014</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -2872,7 +2879,7 @@
 </table>
 <h4>No Misconfigurations found</h4>
 <h3>Target <code>Node.js</code></h3>
-<h4>Vulnerabilities (23)</h4>
+<h4>Vulnerabilities (27)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -3016,6 +3023,20 @@
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
+        <td>CVE-2025-59343</td>
+        <td>HIGH</td>
+        <td>2.0.1</td>
+        <td>3.1.1, 2.1.3, 1.16.5</td>
+    </tr>
+    <tr>
+        <td><code>tar-fs</code></td>
+        <td>CVE-2025-59343</td>
+        <td>HIGH</td>
+        <td>2.0.1</td>
+        <td>3.1.1, 2.1.3, 1.16.5</td>
+    </tr>
+    <tr>
+        <td><code>tar-fs</code></td>
         <td>CVE-2025-48387</td>
         <td>HIGH</td>
         <td>2.1.2</td>
@@ -3023,10 +3044,24 @@
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
+        <td>CVE-2025-59343</td>
+        <td>HIGH</td>
+        <td>2.1.2</td>
+        <td>3.1.1, 2.1.3, 1.16.5</td>
+    </tr>
+    <tr>
+        <td><code>tar-fs</code></td>
         <td>CVE-2025-48387</td>
         <td>HIGH</td>
         <td>3.0.8</td>
         <td>1.16.5, 2.1.3, 3.0.9</td>
+    </tr>
+    <tr>
+        <td><code>tar-fs</code></td>
+        <td>CVE-2025-59343</td>
+        <td>HIGH</td>
+        <td>3.0.8</td>
+        <td>3.1.1, 2.1.3, 1.16.5</td>
     </tr>
     <tr>
         <td><code>xml-crypto</code></td>
