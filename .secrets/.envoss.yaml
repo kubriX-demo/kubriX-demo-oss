@@ -32,7 +32,7 @@ secrets:
     stringData:
       username: "admin"
       password: "dynamic:12:hex"
-      url: "http://sx-keycloak-headless.keycloak.svc.cluster.local:8080"
+      url: "http://kubrix-keycloak-service.keycloak.svc.cluster.local:8080"
       client_id: "admin-cli"
       realm: "master"
       tls_insecure_skip_verify: true
@@ -70,6 +70,14 @@ secrets:
       # clientsecret for keycloak clients
       backstage: "dynamic:12:hex"
       vault: "dynamic:12:hex"
+  # velero secrets
+  - application: "velero"
+    path: "velero/base"
+    namespace: "velero"
+    secretname: velero-repo-credentials
+    secretType: "Opaque"
+    stringData:
+      repositorypassword: "dynamic:32:hex"
   # velero-ui secrets
   - application: "velero-ui"
     path: "velero-ui/base"
@@ -77,13 +85,8 @@ secrets:
     secretname: velero-ui-credential
     secretType: "Opaque"
     stringData:
-      securityTokenKey: "dynamic:32:hex"
       username: "admin"
       password: "dynamic:12:hex"
-      awsAccessKeyId: "minio"
-      awsSecretAccessKey: "dynamic:12:hex"
-      resticPassword: "dynamic:12:hex"
-      securityPathDatabase: "./data"
   # minio secrets
   - application: "minio"
     path: "minio/base"
@@ -95,7 +98,7 @@ secrets:
       rootUser: "root"
       username: "minio"
       password: "dynamic:12:hex"
-  # cnpg secrets
+  # cnpg backstage secrets
   - application: "cnpg"
     path: "cnpg/base"
     namespace: "cnpg"
@@ -111,3 +114,16 @@ secrets:
       pgadminsecret: "dynamic:12:hex"
       pgadminclientid: "pgadmin"
       pgadminclientsecret: "dynamic:12:hex"
+  # cnpg keycloak secrets    
+  - application: "cnpg"
+    path: "cnpg/base"
+    namespace: "cnpg"
+    secretname: cnpg-creds-kc
+    secretType: "Opaque"
+    stringData:
+      pgkeycloakusername: "keycloak"
+      pgkeycloakpassword: "dynamic:12:hex"
+      pgkeycloakhost: "sx-keycloak-cluster-rw"
+      pgkeycloakdatabase: "keycloak"
+      pgkeycloaksuperuser: "postgres"
+      pgkeycloaksuperuserpassword: "dynamic:12:hex"

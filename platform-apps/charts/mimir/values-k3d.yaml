@@ -14,6 +14,7 @@ mimir:
     structuredConfig:
       limits:
         max_global_series_per_user: 300000
+        cardinality_analysis_enabled: true
   distributor:
     resources:
       limits:
@@ -27,6 +28,16 @@ mimir:
         cpu: 5
         memory: 12Gi
   store_gateway:
+    resources:
+      requests:
+        cpu: 50m
+  querier:
+    replicas: 1
+    resources:
+      requests:
+        cpu: 50m
+  query_scheduler:
+    replicas: 1
     resources:
       requests:
         cpu: 50m
