@@ -4,7 +4,7 @@
 <h4>No Misconfigurations found</h4>
 
 <h3>Target <code>ghcr.io/suxess-it/sx-backstage:v1.32.6 (debian 12.9)</code></h3>
-<h4>Vulnerabilities (398)</h4>
+<h4>Vulnerabilities (396)</h4>
 <table>
     <tr>
         <th>Package</th>
@@ -288,13 +288,6 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
-        <td>CVE-2023-53421</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
         <td>CVE-2024-21803</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -484,6 +477,13 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
+        <td>CVE-2024-46729</td>
+        <td>HIGH</td>
+        <td>6.1.128-1</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><code>linux-libc-dev</code></td>
         <td>CVE-2024-46774</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -656,6 +656,13 @@
         <td>HIGH</td>
         <td>6.1.128-1</td>
         <td></td>
+    </tr>
+    <tr>
+        <td><code>linux-libc-dev</code></td>
+        <td>CVE-2024-57945</td>
+        <td>HIGH</td>
+        <td>6.1.128-1</td>
+        <td>6.1.140-1</td>
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
@@ -2633,13 +2640,6 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-39843</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td>6.1.153-1</td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-39849</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
@@ -2647,21 +2647,7 @@
     </tr>
     <tr>
         <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-39850</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
         <td>CVE-2025-39864</td>
-        <td>HIGH</td>
-        <td>6.1.128-1</td>
-        <td>6.1.153-1</td>
-    </tr>
-    <tr>
-        <td><code>linux-libc-dev</code></td>
-        <td>CVE-2025-39866</td>
         <td>HIGH</td>
         <td>6.1.128-1</td>
         <td>6.1.153-1</td>
@@ -2949,14 +2935,14 @@
         <td>CVE-2025-59343</td>
         <td>HIGH</td>
         <td>2.0.1</td>
-        <td>3.1.1, 2.1.3, 1.16.5</td>
+        <td>3.1.1, 2.1.4, 1.16.6</td>
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
         <td>CVE-2025-59343</td>
         <td>HIGH</td>
         <td>2.0.1</td>
-        <td>3.1.1, 2.1.3, 1.16.5</td>
+        <td>3.1.1, 2.1.4, 1.16.6</td>
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
@@ -2970,7 +2956,7 @@
         <td>CVE-2025-59343</td>
         <td>HIGH</td>
         <td>2.1.2</td>
-        <td>3.1.1, 2.1.3, 1.16.5</td>
+        <td>3.1.1, 2.1.4, 1.16.6</td>
     </tr>
     <tr>
         <td><code>tar-fs</code></td>
@@ -2984,7 +2970,7 @@
         <td>CVE-2025-59343</td>
         <td>HIGH</td>
         <td>3.0.8</td>
-        <td>3.1.1, 2.1.3, 1.16.5</td>
+        <td>3.1.1, 2.1.4, 1.16.6</td>
     </tr>
     <tr>
         <td><code>xml-crypto</code></td>
