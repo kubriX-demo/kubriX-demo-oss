@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sx-loki-minio-post-job
+  name: sx-loki-minio-create-bucket-job
   labels:
     app: minio-post-job
     chart: minio-5.4.0
