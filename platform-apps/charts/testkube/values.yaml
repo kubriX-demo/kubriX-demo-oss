@@ -1,8 +1,3 @@
-deliveryTests:
-  enabled: false
-observabilityTests:
-  enabled: false
-securityTests:
-  enabled: false
-portalTests:
-  enabled: false
+default:
+  repoURL: https://github.com/suxess-it/kubriX
+  targetRevision: main

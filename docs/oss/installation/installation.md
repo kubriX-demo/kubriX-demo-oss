@@ -96,23 +96,6 @@ If you run into issues during setup, please see our [Troubleshooting Installatio
   kubectl rollout restart deployment -n backstage sx-backstage
   ```
 
-### Define user entities in backstage
-
-  Before users can login via GitHub in backstage, there needs to be a matching User entity in your own kubriX repo in `backstage-resources/entities/all.yaml`
-
-  ```
-  apiVersion: backstage.io/v1alpha1
-  kind: User
-  metadata:
-    name: <github-user>
-  spec:
-    profile:
-      displayName: <github-user>
-      email: guest@example.com
-      picture: https://api.dicebear.com/9.x/adventurer-neutral/svg
-    memberOf: [kubrix]
-  ```
-
 ### Login
 
 When kubriX installed sucessfully you can access the platform services via these URLs and login with these credentials:
@@ -121,7 +104,7 @@ When kubriX installed sucessfully you can access the platform services via these
 | -------- | ------- | ------- | ------- |
 | Backstage  | https://backstage.127-0-0-1.nip.io | via github | via github |
 | ArgoCD | https://argocd.127-0-0-1.nip.io/ | admin | `kubectl get secret -n argocd argocd-initial-admin-secret -o=jsonpath='{.data.password}' \| base64 -d` |
-| Kargo | https://kargo.127-0-0-1.nip.io     | admin | - |
+| Kargo | https://kargo.127-0-0-1.nip.io     | - | `kubectl get secret -n kargo kargo-admin-secret -o=jsonpath='{.data.ADMIN_ACCOUNT_PASSWORD}' \| base64 -d` |
 | Grafana    | https://grafana.127-0-0-1.nip.io | `kubectl get secret -n grafana grafana-admin-secret -o=jsonpath='{.data.userKey}' \| base64 -d` | `kubectl get secret -n grafana grafana-admin-secret -o=jsonpath='{.data.passwordKey}' \| base64 -d` |
 | Keycloak    | https://keycloak.127-0-0-1.nip.io | admin | `kubectl get secret -n keycloak keycloak-admin -o=jsonpath='{.data.admin-password}' \| base64 -d` |
 | FalcoUI    | https://falco.127-0-0-1.nip.io | `kubectl get secret -n falco falco-ui-creds -o=jsonpath='{.data.FALCOSIDEKICK_UI_USER}' \| base64 -d \| awk -F: '{print $1}'` | `kubectl get secret -n falco falco-ui-creds -o=jsonpath='{.data.FALCOSIDEKICK_UI_USER}' \| base64 -d \| awk -F: '{print $2}'` |
