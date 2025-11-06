@@ -1,3 +1,6 @@
 deployment:
   ingress:
     host: kubevirt-manager.127-0-0-1.nip.io
+    annotations:
+      external-dns.alpha.kubernetes.io/ttl: "60"
+      cert-manager.io/cluster-issuer: default-issuer
