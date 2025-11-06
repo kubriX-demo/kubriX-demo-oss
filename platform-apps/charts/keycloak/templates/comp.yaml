@@ -44,6 +44,22 @@ spec:
   - step: keycloak-builtin-objects
     functionRef:
       name: function-keycloak-builtin-objects
+    input:
+      apiVersion: keycloak.fn/v1alpha1        
+      kind: BuiltinObjectsConfig             
+      spec:
+        realm: kubrix
+        providerConfigRef: sx-keycloak-config
+        builtinRealmRoles:
+          - offline_access
+          - uma_authorization
+        builtinClients:
+          - account
+          - account-console
+          - admin-cli
+          - broker
+          - realm-management
+          - security-admin-console
   - step: automatically-detect-ready-composed-resources
     functionRef:
       name: function-auto-ready
