@@ -1,0 +1,5 @@
+crossplane:
+  resourcesCrossplane:
+    limits:
+      cpu: 1000m
+      memory: 2048Mi
