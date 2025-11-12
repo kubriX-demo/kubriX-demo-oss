@@ -4,4 +4,4 @@ cloudnative-pg:
     podMonitorEnabled: true
 
 pgadmin4:
-  enabled: false
+  enabled: true
