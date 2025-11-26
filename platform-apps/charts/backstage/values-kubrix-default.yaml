@@ -356,8 +356,6 @@ backstage:
  #           - techdocs
           maxDepth: 1
           admin:
-            users:
-              - name: user:default/demouser
             superUsers:
               - name: user:default/demoadmin
               - name: user:default/phac008
