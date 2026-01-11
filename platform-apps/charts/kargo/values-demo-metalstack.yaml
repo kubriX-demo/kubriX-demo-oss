@@ -4,3 +4,20 @@ kargo:
     argocd:
       urls:
         "": https://argocd.demo.kubrix.cloud
+
+    oidc:
+      enabled: true
+      issuerURL: http://kubrix-keycloak-service.keycloak.svc.cluster.local:8080/realms/kubrix
+      clientID: kargo
+      cliClientID: kargo
+      dex:
+        enabled: false
+      admins:
+        claims:
+          groups:
+          - admins
+      viewers:
+        claims:
+          groups:
+          - users
+          #- viewers
