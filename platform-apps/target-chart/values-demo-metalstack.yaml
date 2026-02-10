@@ -3,7 +3,7 @@ default:
   - values-kubrix-default.yaml
   - values-provider-metalstack.yaml
   - values-demo-metalstack.yaml
-  - values-customer.yaml‎
+  - values-customer.yaml
 
 applications:
 
