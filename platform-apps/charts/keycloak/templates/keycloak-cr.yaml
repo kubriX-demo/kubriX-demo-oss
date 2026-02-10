@@ -47,14 +47,23 @@ spec:
   resources:
     {{- toYaml . | nindent 4 }}
   {{ end }}
+  {{ with .Values.keycloak.instances }}
+  instances: {{ . }}
+  {{ end }}
+  {{ with .Values.keycloak.scheduling }}
+  scheduling:
+    {{- toYaml . | nindent 4 }}
+  {{ end }}
   ingress:
     enabled: {{ .Values.keycloak.ingress.enabled }}
+    {{ if .Values.keycloak.ingress.enabled }}
     {{ with .Values.keycloak.ingress.annotations }}
     annotations:
       {{- toYaml . | nindent 6 }}
     {{ end }}
     className: {{ .Values.keycloak.ingress.className }}
     tlsSecret: {{ .Values.keycloak.ingress.tlsSecret }} # only possible >= keycloak version 26.4
+    {{ end }}
   networkPolicy:
     enabled: {{ .Values.keycloak.networkPolicy.enabled }}
   features:

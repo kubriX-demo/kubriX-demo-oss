@@ -1,6 +1,6 @@
 dependencies:
 - name: kargo
   repository: oci://ghcr.io/akuity/kargo-charts
-  version: 1.8.3
-digest: sha256:da8a8aa3d2b4b0b45786d4db1a36fe97af04fcb82ea7c7fe45a7d48e975609b6
-generated: "2025-11-05T21:43:14.746109189Z"
+  version: 1.9.2
+digest: sha256:cad27d864ebf8d9653b17c8c7014ba293645e62bcd3128b0e88a7244fd24fbd5
+generated: "2026-02-02T17:42:16.095552127Z"

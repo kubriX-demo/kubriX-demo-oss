@@ -13,6 +13,16 @@ backstage:
     serviceMonitor:
       enabled: true
   backstage:
+    startupProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /.backstage/health/v1/readiness
+        port: 7007
+        scheme: HTTP
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 2
     image:
       registry: ghcr.io/suxess-it
       repository: sx-backstage
@@ -22,6 +32,7 @@ backstage:
       - sx-cnp-secret
       - backstage-db-secrets
       - sx-vault-secret
+      - sx-oidc-secret
     extraEnvVars:
       - name: NODE_OPTIONS
         value: "--no-node-snapshot"
@@ -109,7 +120,7 @@ backstage:
         #   changeOrigin: true
           '/grafana/api':
             # May be a public or an internal DNS
-            target: ~
+            target: http://sx-grafana.grafana:80
             headers:
               Authorization: Bearer ${GRAFANA_TOKEN}
 
@@ -380,6 +391,13 @@ cluster:
     postgresql: "16"
   cluster:
     instances: 1
+    postgresql:
+      parameters:
+        max_connections: "100"
+    initdb:
+      database: backstage
+      secret:
+        name: cnpg-backstage-secret
     monitoring:
       enabled: true
     superuserSecret: cnpg-superuser-secret

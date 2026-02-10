@@ -2,8 +2,16 @@ default:
   valueFiles:
   - values-kubrix-default.yaml
   - values-cluster-kind.yaml
+  - values-customer.yaml
 
 applications:
+
+  - name: prometheus-operator-crds
+    annotations:
+      argocd.argoproj.io/sync-wave: "-11"
+    syncOptions:
+      - ServerSideApply=true
+
   - name: ingress-nginx
     annotations:
       argocd.argoproj.io/sync-wave: "-11"
@@ -19,6 +27,8 @@ applications:
   - name: argocd
     annotations:
       argocd.argoproj.io/sync-wave: "-9"
+    syncOptions:
+      - ServerSideApply=true
 
   - name: external-secrets
     annotations:
@@ -49,7 +59,15 @@ applications:
       argocd.argoproj.io/sync-wave: "-5"
 
   - name: testkube
+
+  - name: kargo
    
   - name: backstage
     annotations:
       argocd.argoproj.io/sync-wave: "10"
+
+  - name: team-onboarding
+    destinationNamespaceOverwrite: argocd
+    namespaceResourceTracking: false
+    annotations:
+      argocd.argoproj.io/sync-wave: "15"

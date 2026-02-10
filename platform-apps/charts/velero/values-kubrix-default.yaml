@@ -1,3 +1,10 @@
+backupStorageLocation:
+  config:
+    s3Url: https://sx-minio.minio.svc.cluster.local:9000
+    bucket: velero
+    region: minio
+    insecureSkipTLSVerify: true
+    # prefix
 velero:
   nameOverride: velero #https://github.com/vmware-tanzu/velero/issues/9023
   fullnameOverride: velero
@@ -8,8 +15,8 @@ velero:
       volumeMounts:
         - mountPath: /target
           name: plugins
-    - name: velero-plugin-for-microsoft-azure
-      image: velero/velero-plugin-for-microsoft-azure:v1.13.1
+    - name: kubevirt-velero-plugin
+      image: quay.io/kubevirt/kubevirt-velero-plugin:v0.8.0
       imagePullPolicy: IfNotPresent
       volumeMounts:
         - mountPath: /target
@@ -30,25 +37,8 @@ velero:
         cpu: 128m
         memory: 128Mi
   configuration:
-    backupStorageLocation:
-    - name:
-      provider: aws
-      bucket: velero
-      default: true
-      credential:
-        name: velero-cloud-credential
-        key: cloud
-      config:
-        region: minio
-        s3ForcePathStyle: true
-        s3Url: https://sx-minio.minio.svc.cluster.local:9000
-        publicUrl: ~
-        insecureSkipTLSVerify: true # temp for minio/local deployment
-    volumeSnapshotLocation:
-    - name:
-      provider: aws
-      config:
-       region: minio
+    backupStorageLocation: []
+    volumeSnapshotLocation: []
     features: EnableCSI
     defaultVolumesToFsBackup: true
   serviceAccount:
@@ -57,3 +47,7 @@ velero:
       name: velero
   snapshotsEnabled: false
   deployNodeAgent: true
+
+  kubectl:
+    image:
+      repository: ghcr.io/suxess-it/kubectl

@@ -1,17 +1,18 @@
-// @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+// import dotenv from 'dotenv';
+// import path from 'path';
+// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
- * @see https://playwright.dev/docs/test-configuration
+ * See https://playwright.dev/docs/test-configuration.
  */
-module.exports = defineConfig({
-  // testDir: './tests',
+export default defineConfig({
+  // testDir: './portal',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -39,7 +40,7 @@ module.exports = defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'on',
     video: 'on',
     ignoreHTTPSErrors: true,
     // storageState: '.auth/user.json',
@@ -48,20 +49,87 @@ module.exports = defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'setup',
-      testMatch: 'auth.github.ts',
+      name: 'portal-login',
+      testMatch: 'portal/auth.github-keycloak-login.ts',
+      // IMPORTANT: it is crucial that we do not enable 'trace' in login project, so kubrixBot password doesn't get leaked in the traces
+      use : {trace : 'off'}
     },
     {
-      name: 'chromium',
+      name: 'portal-tests',
+      testMatch: /portal\/portal-.*/,
       use: {
         ...devices['Desktop Chrome'],
-        // only chromium tests use the saved auth
-        storageState: '.auth/user.json',
       },
-      //wait for setup project to finish first
-      dependencies: ['setup'],
+      dependencies: ['portal-login','argocd-login','kargo-login'],
     },
-
+    {
+      name: 'argocd-login',
+      testMatch: 'argocd/auth.argocd-login.ts',
+    },
+    {
+      name: 'grafana-login',
+      testMatch: 'grafana/auth.grafana-login.ts',
+    },
+    {
+      name: 'keycloak-login',
+      testMatch: 'keycloak/auth.keycloak-login.ts',
+    },
+    {
+      name: 'vault-login',
+      testMatch: 'vault/auth.vault-login.ts',
+    },
+    {
+      name: 'kargo-login',
+      testMatch: 'kargo/auth.kargo-login.ts',
+    },
+    {
+      name: 'argocd-tests',
+      testMatch: /argocd\/argocd-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['argocd-login'],
+    },
+    {
+      name: 'grafana-tests',
+      testMatch: /grafana\/grafana-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['grafana-login'],
+    },
+    {
+      name: 'keycloak-tests',
+      testMatch: /keycloak\/keycloak-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['keycloak-login'],
+    },
+    {
+      name: 'vault-tests',
+      testMatch: /vault\/vault-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['vault-login'],
+    },
+    {
+      name: 'kargo-tests',
+      testMatch: /kargo\/kargo-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['kargo-login'],
+    },
+    {
+      name: 'prime-tests',
+      testMatch: /prime\/prime-.*/,
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      dependencies: ['argocd-login','portal-login','grafana-login','keycloak-login','vault-login','kargo-login'],
+    },
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
@@ -89,7 +157,7 @@ module.exports = defineConfig({
   ],
 
   /* Folder for test artifacts such as screenshots, videos, traces, etc. */
-  outputDir: '/data/artifacts/',
+  outputDir: 'data/artifacts/',
 
   /* Run your local dev server before starting the tests */
   // webServer: {

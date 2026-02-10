@@ -1,9 +1,9 @@
 dependencies:
 - name: grafana
-  repository: https://grafana.github.io/helm-charts
-  version: 10.2.0
+  repository: oci://ghcr.io/grafana-community/helm-charts
+  version: 11.0.1
 - name: cluster
   repository: https://cloudnative-pg.github.io/charts
-  version: 0.3.1
-digest: sha256:af7869050639c080e9ebc15315e9988430ec319fa354b4450d3876f0eea38ffb
-generated: "2025-11-21T14:05:17.473832206Z"
+  version: 0.4.0
+digest: sha256:c052e47c1b4c89931ec8d47c43b96ab6666f7ddd249035d19afcfa9776b6754c
+generated: "2026-02-09T17:49:40.828616241Z"

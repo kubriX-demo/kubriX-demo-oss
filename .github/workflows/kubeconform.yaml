@@ -1,0 +1,43 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - '.github/workflows/kubeconform.yaml'
+      - '.github/kubeconform.sh'
+      - 'platform-apps/charts/**'
+      
+permissions:
+  contents: read
+  pull-requests: read
+
+name: kubeconform
+
+jobs:
+  kubeconform:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(vars.GITOPS_DIFF_TESTCASES) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          list-files: json
+          # For PRs it compares base..head. For push it compares before..after.
+          filters: |
+            appChanges:
+              - 'platform-apps/charts/**'
+            globalChanges:
+               - '.github/workflows/kubeconform.yaml'
+               - '.github/kubeconform.sh'
+
+
+      - name: kubeconform charts
+        shell: bash
+        env:
+          CHANGED_APPS: ${{ steps.filter.outputs.appChanges_files }}
+        run: |
+          .github/kubeconform.sh ${{ matrix.testCase }} ${{ matrix.valuesFiles }} "${{ matrix.setValues }}"

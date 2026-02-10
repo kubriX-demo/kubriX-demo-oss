@@ -19,15 +19,17 @@ check_tool() {
 }
 
 check_variable() {
-  variable=$1
-  show_output=$2
-  sane_default="${3:-}"
+  local variable=$1
+  local show_output=$2
+  local sane_default="${3:-}"
+  local allowed="${4:-}"   # e.g. "aws|azure|cloudflare|ionos|stackit"
+
   # check if variable is set
   if [ -z "${!variable:-}" ]; then
     # set variable to a sane default if a sane default is present, else exit with error
-    if [ ! -z "${sane_default}" ]; then
+    if [ -n "${sane_default}" ]; then
       printf -v "${variable}" '%s' "${sane_default}"
-      if [ ${show_output} = "true" ] ; then
+      if [ "${show_output}" = "true" ] ; then
         echo "set ${variable} to sane default '${!variable}'"
       else
         echo "set ${variable} to sane default. Value is a secret."
@@ -35,8 +37,19 @@ check_variable() {
     else
       fail "prereq check failed: variable '${variable}' is blank or not set"
     fi
+  fi
+
+  # validate value if allowed list is provided
+  if [ -n "${allowed}" ]; then
+    if [[ "${!variable}" =~ ^(${allowed})$ ]]; then
+      : # valid
+    else
+      fail "prereq check failed: variable '${variable}' has invalid value '${!variable}'. Valid values: ${allowed//|/, }"
+    fi
+  fi
+
   # show value of the variable, unless show_output is false (for omitting output of secrets)
-  elif [ ${show_output} = "true" ] ; then
+  if [ "${show_output}" = "true" ] ; then
     echo "${variable} is set to '${!variable}'"
   else
     echo "${variable} is set. Value is a secret."
@@ -73,12 +86,12 @@ check_prereqs() {
     check_variable KUBRIX_UPSTREAM_REPO_USERNAME "true" "dummy"
     check_variable KUBRIX_UPSTREAM_REPO_PASSWORD "false" " "
     check_variable KUBRIX_DOMAIN "true" "demo-$(printf '%s' "${KUBRIX_REPO}" | sha256_portable | head -c 10).kubrix.cloud"
-    check_variable KUBRIX_DNS_PROVIDER "true" "ionos"
-    check_variable KUBRIX_CLOUD_PROVIDER "true" "on-prem"
+    check_variable KUBRIX_DNS_PROVIDER "true" "ionos" "none|aws|azure|cloudflare|ionos|stackit"
+    check_variable KUBRIX_CLOUD_PROVIDER "true" "on-prem" "on-prem|aks|peak|metalstack"
     check_variable KUBRIX_TSHIRT_SIZE "true" "small"
     check_variable KUBRIX_SECURITY_STRICT "true" "false"
     check_variable KUBRIX_HA_ENABLED "true" "false"
-    check_variable KUBRIX_CERT_MANAGER_DNS_PROVIDER "true" "none"
+    check_variable KUBRIX_CERT_MANAGER_DNS_PROVIDER "true" "none" "none|aws"
     check_tool gomplate "gomplate -v"
   fi
 
@@ -90,10 +103,6 @@ check_prereqs() {
   check_tool curl "curl -V | head -1"
   check_tool k8sgpt "k8sgpt version"
   
-  if [[ "${KUBRIX_CLUSTER_TYPE}" == "kind" ]] ; then
-    check_tool mkcert "mkcert --version"
-  fi
-
   echo "Prereq checks finished sucessfully."
   echo ""
 }
@@ -167,7 +176,6 @@ EOF
   echo "rendering values templates ..."
   gomplate --context kubriX=bootstrap/customer-config.yaml --input-dir platform-apps --include *.yaml.tmpl --output-map='platform-apps/{{ .in | strings.ReplaceAll ".yaml.tmpl" ".yaml" }}'
   gomplate --context kubriX=bootstrap/customer-config.yaml --input-dir backstage-resources --include *.yaml.tmpl --output-map='backstage-resources/{{ .in | strings.ReplaceAll ".yaml.tmpl" ".yaml" }}'
-  gomplate --context kubriX=bootstrap/customer-config.yaml --input-dir docs --include *.md.tmpl --output-map='docs/{{ .in | strings.ReplaceAll ".md.tmpl" ".md" }}'
 
   # exclude apps from KUBRIX_APP_EXCLUDE
   if [[ -n "${KUBRIX_APP_EXCLUDE:-}" ]]; then
@@ -274,7 +282,7 @@ show_node_resources() {
     read cpu_use mem_use < <(
       kubectl top node "$name" --no-headers 2>/dev/null \
       | awk '{print $3, $5}'
-    )
+    ) || true
 
     # In case metrics-server isn't ready
     cpu_use=${cpu_use:-"-"}
@@ -468,6 +476,7 @@ wait_until_apps_synced_healthy() {
             sync_started_seconds="-"
             sync_finished_seconds="-"
             sync_duration="-"
+            operation_phase="-"
         fi
 
         # print app status in beautiful table
@@ -665,42 +674,40 @@ if [[ "${KUBRIX_CLUSTER_TYPE}" == "kind" ]] ; then
   kubectl get configmap coredns -n kube-system -o yaml |  awk '
 /ready/ {
     print;
-    print "        rewrite name keycloak.127-0-0-1.nip.io sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local";
-    print "        rewrite name grafana.127-0-0-1.nip.io sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local";
-    print "        rewrite name argocd.127-0-0-1.nip.io sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local";
-    print "        rewrite name vault.127-0-0-1.nip.io sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local";
-    print "        rewrite name backstage.127-0-0-1.nip.io sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local";
+    print "        rewrite stop {"
+    print "          name regex ^(.*)\\.127-0-0-1\\.nip\\.io\\.?$ sx-ingress-nginx-controller.ingress-nginx.svc.cluster.local"
+    print "          answer auto"
+    print "        }"
     next
 }
 { print }
 ' > coredns-configmap.yaml
+  cat coredns-configmap.yaml
   kubectl apply -f coredns-configmap.yaml
   kubectl rollout restart deployment coredns -n kube-system
+  kubectl -n kube-system rollout status deployment/coredns
   rm coredns-configmap.yaml
 
-  # create mkcert-issuer root certificate
-  mkcert -install
+  # create install root CA to trust certs
+  root_cert="/etc/tls/kind-kubrix-root-tls.crt"
+  root_key="/etc/tls/kind-kubrix-tls.key"
   kubectl get ns cert-manager >/dev/null 2>&1 || kubectl create ns cert-manager
-  kubectl create secret tls mkcert-ca-key-pair --key "$(mkcert -CAROOT)"/rootCA-key.pem --cert "$(mkcert -CAROOT)"/rootCA.pem -n cert-manager --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create secret tls kind-kubrix-ca-key-pair --key ${root_key} --cert ${root_cert} -n cert-manager --dry-run=client -o yaml | kubectl apply -f -
 
-  # create a cacert secret for backstage so backstage trusts internal services with mkcert certificates
+  # create a cacert secret for backstage so backstage trusts internal services
   kubectl get ns backstage >/dev/null 2>&1 || kubectl create ns backstage
-  kubectl create secret generic mkcert-cacert --from-file=ca.crt="$(mkcert -CAROOT)"/rootCA.pem -n backstage --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create secret generic kind-kubrix-cacert --from-file=ca.crt=${root_cert} -n backstage --dry-run=client -o yaml | kubectl apply -f -
 
-  # vault oidc case
-  echo "create a root ca and patch ingress-nginx-controller for vault oidc"
+  # vault ca for oidc
   kubectl get ns vault >/dev/null 2>&1 || kubectl create ns vault
-  kubectl create secret generic ca-cert --from-file=ca.crt="$(mkcert -CAROOT)"/rootCA.pem -n vault --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create secret generic ca-cert --from-file=ca.crt=${root_cert} -n vault --dry-run=client -o yaml | kubectl apply -f -
 
-  # testkube should also trust every cert signed with our mkcert ca
+  # testkube should also trust every cert signed with our ca
   kubectl get ns testkube >/dev/null 2>&1 || kubectl create ns testkube
-  kubectl create secret generic ca-cert --from-file=ca.crt="$(mkcert -CAROOT)"/rootCA.pem -n testkube --dry-run=client -o yaml | kubectl apply -f -
+  kubectl create secret generic ca-cert --from-file=ca.crt=${root_cert} -n testkube --dry-run=client -o yaml | kubectl apply -f -
 
   # testkube also needs credentials to retrieve testfiles on the kubriX github repo
   kubectl create secret generic git-credentials --from-literal=username=${KUBRIX_REPO_USERNAME} --from-literal=token=${KUBRIX_REPO_PASSWORD} -n testkube --dry-run=client -o yaml | kubectl apply -f -
-
-  # curl should trust all websites with the mkcert cert
-  export CURL_CA_BUNDLE="$(mkcert -CAROOT)"/rootCA-key.pem
 
   echo "installing metrics-server in KinD"
   helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
@@ -717,7 +724,7 @@ helm repo add argo-cd https://argoproj.github.io/argo-helm
 helm repo update
 helm upgrade --install sx-argocd argo-cd \
   --repo https://argoproj.github.io/argo-helm \
-  --version 8.5.2 \
+  --version 9.4.0 \
   --namespace argocd \
   --create-namespace \
   --set configs.cm.application.resourceTrackingMethod=annotation \
@@ -823,6 +830,6 @@ kubectl delete -f ./.secrets/secrettemp/pushsecrets.yaml
 
 if [[ "${KUBRIX_CLUSTER_TYPE}" == "kind" ]] ; then
   echo "Installation finished! On KinD clusters we create self-signed certificates for our platform services. You probably need to import this CA cert in your browser to accept the certificates:"
-  kubectl get secret mkcert-ca-key-pair -n cert-manager -o jsonpath="{['data']['tls\.crt']}" | base64 --decode
+  kubectl get secret kind-kubrix-ca-key-pair -n cert-manager -o jsonpath="{['data']['tls\.crt']}" | base64 --decode
 fi
 
