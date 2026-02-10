@@ -1,5 +1,4 @@
 teams:
-# new team stanza for team kubrix
   - name: kubrix
     sourceRepos:
       - 'https://github.com/kubriX-demo/kubrix-*'
