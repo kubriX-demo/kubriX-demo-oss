@@ -27,6 +27,7 @@ backstage:
       registry: ghcr.io/suxess-it
       repository: sx-backstage
       tag: v1.43.3
+      pullPolicy: "Always"
     extraEnvVarsSecrets:
       - sx-cnp-secret
       - backstage-db-secrets
@@ -366,8 +367,6 @@ backstage:
  #           - techdocs
           maxDepth: 1
           admin:
-            users:
-              - name: user:default/dummyuser
             superUsers:
               - name: user:default/demoadmin
               - name: user:default/phac008

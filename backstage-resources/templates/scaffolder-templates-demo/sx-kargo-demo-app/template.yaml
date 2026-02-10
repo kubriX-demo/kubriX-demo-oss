@@ -2,15 +2,15 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: multi-stage-app-with-kargo-pipeline
-  title: Template for Multi-Stage App with Kargo Pipeline
-  description: Run Multi-Stage App provisioned with ArgoCD and promoted with Kargo
+  title: Template for Multi-Stage Podtato-Head with Kargo Pipeline
+  description: Create Multi-Stage Podtato-Head provisioned with ArgoCD and promoted with Kargo
   tags:
     - kargo
     - kubrix
     - example
 spec:
   owner: group:kubrix
-  type: onboarding
+  type: application-package
   
   parameters:
     - title: Provide information on this application
