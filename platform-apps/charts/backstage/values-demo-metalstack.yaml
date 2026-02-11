@@ -33,6 +33,12 @@ backstage:
             development:
               callbackUrl: https://backstage.demo.kubrix.cloud/api/auth/oidc/handler/frame
 
+      scaffolder:
+        defaultEnvironment:
+          parameters:
+            defaultdomainName: demo.kubrix.cloud
+            defaultrepoName: kubriX-demo
+
       explore:
         tools:
           - title: Announcements
