@@ -5,7 +5,7 @@ metadata:
   title: k8s-monitoring
   description: Helm-Chart with integrated Alloy to scrape metrics, logs and traces for Mimir, Loki and Tempo
   links: 
-    - url: https://grafana.{{ .kubriX.domain }}
+    - url: https://grafana.demo.kubrix.cloud
       title: Grafana Instance for kubriX
       icon: web
     - url: https://github.com/grafana/k8s-monitoring-helm

@@ -1,4 +1,3 @@
-{{ if ne .kubriX.clusterType "kind" -}}
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
@@ -6,7 +5,7 @@ metadata:
   title: kubevirt-manager
   description: kubevirt Manager UI
   links: 
-    - url: https://kubevirt-manager.{{ .kubriX.domain }}
+    - url: https://kubevirt-manager.demo.kubrix.cloud
       title: kubevirt-manager Instance of kubrix
       icon: web
     - url: https://kubevirt-manager.io/
@@ -17,4 +16,3 @@ spec:
   lifecycle: production
   owner: kubrix
   system: kubrix
-{{ end -}}

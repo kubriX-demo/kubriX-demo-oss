@@ -35,17 +35,6 @@ spec:
   memberOf: [kubrix]
 ---
 apiVersion: backstage.io/v1alpha1
-kind: User
-metadata:
-  name: {{ .kubriX.gitUser }}
-spec:
-  profile:
-    displayName: {{ .kubriX.gitUser }}
-    email: guest@example.com
-    picture: https://api.dicebear.com/9.x/adventurer-neutral/svg
-  memberOf: [kubrix]
----
-apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: kubrix

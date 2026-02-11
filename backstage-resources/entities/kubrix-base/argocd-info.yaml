@@ -1,4 +1,3 @@
-{{ if ne .kubriX.clusterType "kind" -}}
 apiVersion: backstage.io/v1alpha1
 kind: Resource
 metadata:
@@ -6,7 +5,7 @@ metadata:
   title: ArgoCD
   description: Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. We use ArgoCD for ...
   links:
-    - url: https://argocd.{{ .kubriX.domain }}
+    - url: https://argocd.demo.kubrix.cloud
       title: Instance of ArgoCD
       icon: web
     - url: https://argo-cd.readthedocs.io/en/stable/
@@ -17,4 +16,3 @@ spec:
   lifecycle: production
   owner: kubrix
   system: kubrix
-{{ end -}}
