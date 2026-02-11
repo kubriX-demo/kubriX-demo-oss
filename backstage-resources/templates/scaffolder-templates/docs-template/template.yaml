@@ -76,6 +76,7 @@ spec:
           description: ${{ parameters.description }}
           repoUrlRepo: ${{ steps['catalogFetch'].output.entity.metadata.name }}-${{ parameters.name }}
           repoUrlowner: ${{ environment.parameters.defaultorgName }}
+          owner: ${{ parameters.owner }}
 
     - id: publish
       name: Publish
