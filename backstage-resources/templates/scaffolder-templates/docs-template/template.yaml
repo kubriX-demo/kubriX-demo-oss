@@ -60,6 +60,12 @@ spec:
   # By adding the following and fetching from an absolute URL you can
   # add in the docs template
   steps:
+    - id: catalogFetch
+      name: Fetch component details
+      action: catalog:fetch
+      input:
+        entityRef: ${{ parameters.owner }}
+
     - id: fetch
       name: Template Docs Skeleton
       action: fetch:template
@@ -68,15 +74,15 @@ spec:
         values:
           name: ${{ parameters.name }}
           description: ${{ parameters.description }}
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
-          owner: ${{ parameters.owner }}
+          repoUrlRepo: ${{ steps['catalogFetch'].output.entity.metadata.name }}-${{ parameters.name }}
+          repoUrlowner: ${{ environment.parameters.defaultorgName }}
 
     - id: publish
       name: Publish
       action: publish:github
       input:
         description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: github.com?repo=${{ steps['catalogFetch'].output.entity.metadata.name }}-${{ parameters.name }}&owner=${{ environment.parameters.defaultorgName }}
         token: ${{ secrets.USER_OAUTH_TOKEN }}
         gitAuthorName: ${{ user.entity.metadata.name }}
         gitAuthorEmail: ${{ user.entity.spec.profile.email }}
