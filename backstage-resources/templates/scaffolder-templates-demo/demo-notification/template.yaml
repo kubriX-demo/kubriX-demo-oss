@@ -37,7 +37,7 @@ spec:
           title: message
           type: string
           description: message
-          default: 'explore them now!'
+          default: ${{ environment.parameters.defaultrepoName }}
         recipients:
           title: Recipients
           type: string
