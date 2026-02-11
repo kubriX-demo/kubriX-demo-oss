@@ -11,6 +11,9 @@ metadata:
     - url: https://argo-cd.readthedocs.io/en/stable/
       title: Documentation
       icon: web
+    - url: /explore
+      title: Connect to running instance, see explore section for more details
+      icon: web
 spec:
   type: cd-provider
   lifecycle: production
