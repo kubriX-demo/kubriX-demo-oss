@@ -37,7 +37,7 @@ spec:
           title: message
           type: string
           description: message
-          default: ${{ environment.parameters.defaultrepoName }}
+          default: "wild!"
         recipients:
           title: Recipients
           type: string
@@ -46,6 +46,27 @@ spec:
           enum:
             - entity
             - broadcast
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Information
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners: 
+              - will-be-autocomplete-by-template
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+              additionalScopes:
+                github: 
+                  - workflow
+                  - user
+            allowedRepos:
+              - will-be-autocomplete-by-template
       dependencies:
         recipients:
           oneOf:
